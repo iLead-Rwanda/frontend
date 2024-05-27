@@ -15,6 +15,7 @@ import UserProvider from "./contexts/UserContext";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/main/Dashboard";
 import Students from "./pages/main/Students";
+import ProvinceSchools from "./pages/ProvinceSchools";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/students/:category" element={<Notification />} />
             <Route path="/add" element={<AddStudent />} />
+            <Route path="/province-schools" element={<ProvinceSchools />} />
             <Route path="/students" element={<Students />} />
             <Route path="/new" element={<NewStudent />} />
             <Route path="/certificates" element={<Certificate />} />

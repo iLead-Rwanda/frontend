@@ -22,6 +22,15 @@ const Sidebar = () => {
     },
     {
       icon: "ph:User-fill",
+      text: "Province & Schools",
+      bgColor: "#C211F81A",
+      textColor: "#C211F8",
+      containerBgColor: "#FFFFFF",
+      link: "/province-schools",
+      roles: ["Admin"],
+    },
+    {
+      icon: "ph:User-fill",
       text: "Students",
       bgColor: "#C211F81A",
       textColor: "#C211F8",
