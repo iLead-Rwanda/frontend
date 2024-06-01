@@ -4,7 +4,7 @@ import authBg from "../assets/authBg.png";
 import certi from "../assets/certi.png";
 import certificate from "../assets/certificate.png";
 import ilead from "../assets/ilead.png";
-import no_notification from "../assets/no_notification.png";
+import no_data from "../assets/no_notification.png";
 import not_available from "../assets/not_available.gif";
 import profile from "../assets/profile.png";
 import Quote from "../assets/Quote.png";
@@ -18,7 +18,7 @@ const images = {
   certi,
   certificate,
   ilead,
-  no_notification,
+  no_data,
   not_available,
   profile,
   Quote,
