@@ -57,7 +57,7 @@ const Login = () => {
         email,
         password,
       });
-      localStorage.setItem("user", response.data.user);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
       setUser(response.data.user);

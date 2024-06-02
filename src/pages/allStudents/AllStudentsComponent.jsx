@@ -1,14 +1,12 @@
 import React from "react";
-import arrowBack from "../../Assets/arrow-back.svg";
-import profile from "../../Assets/profile.svg";
-import smallCert from "../../Assets/small_cert.png";
+import images from "../../utils/images";
 
 const AllStudentsComponent = () => {
   return (
     <div className={`w-[100%] h-[100%] flex flex-col gap-[10px]`}>
       <div className={`flex gap-[15px] items-center`}>
         <img
-          src={arrowBack}
+          src={images.arrowBack}
           alt="arrow back"
           className={`w-[25px] h-[25px] cursor-pointer`}
         />
@@ -27,13 +25,17 @@ const AllStudentsComponent = () => {
           {Array.from({ length: 10 }).map((_item, index) => (
             <tr key={index}>
               <td className={`flex items-center justify-start gap-[10px] `}>
-                <img src={profile} alt="Student" className="student-photo" />
+                <img
+                  src={images.profile}
+                  alt="Student"
+                  className="student-photo"
+                />
                 Ineza Cinta Castella
               </td>
               <td>iDo</td>
               <td className={`flex justify-center `}>
                 <img
-                  src={smallCert}
+                  src={images.smallCert}
                   alt="Certificate"
                   className="certificate-img"
                 />

@@ -1,12 +1,11 @@
 import "./App.css";
 import Login from "./pages/auth/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Dashboard from "./pages/Dash";
 import Notification from "./pages/Student";
 import AddStudent from "./pages/AddStudent";
 import RegisteredStudents from "./pages/RegisteredStudents";
 import NewStudent from "./pages/NewStudent";
-import Certificate from "./pages/Certificate";
+import Certificate from "./pages/main/Certificate";
 import OneCertifiate from "./pages/OneCertificate";
 import Analytics from "./pages/Analytics";
 import Favorites from "./pages/Favorites";
@@ -14,6 +13,8 @@ import AppLayout from "./components/layout/AppLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import UserProvider from "./contexts/UserContext";
 import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/main/Dashboard";
+import Students from "./pages/main/Students";
 
 function App() {
   return (
@@ -24,9 +25,9 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/students/:category" element={<Notification />} />
             <Route path="/add" element={<AddStudent />} />
-            <Route path="/all" element={<RegisteredStudents />} />
+            <Route path="/students" element={<Students />} />
             <Route path="/new" element={<NewStudent />} />
-            <Route path="/certi" element={<Certificate />} />
+            <Route path="/certificates" element={<Certificate />} />
             <Route path="/one" element={<OneCertifiate />} />
             <Route path="/ana" element={<Analytics />} />
             <Route path="/fav" element={<Favorites />} />

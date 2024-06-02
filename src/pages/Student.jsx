@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
+import Sidebar from '../components/ui/Sidebar';
+import Navbar from '../components/ui/Navbar';
 import StudentInfo from '../components/StudentInfo';
 
 const Student=()=>{

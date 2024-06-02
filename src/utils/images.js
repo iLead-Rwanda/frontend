@@ -9,6 +9,7 @@ import not_available from "../assets/not_available.gif";
 import profile from "../assets/profile.png";
 import Quote from "../assets/Quote.png";
 import student from "../assets/student.png";
+import bronze from "../assets/bronze.png";
 
 const images = {
   arrowCorner,
@@ -22,6 +23,7 @@ const images = {
   profile,
   Quote,
   student,
+  bronze,
 };
 
 export default images;
