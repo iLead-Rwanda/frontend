@@ -39,7 +39,7 @@ const CustomInput = ({
           onClick={handleTogglePassword}
         >
           <Icon
-            icon={isPasswordVisible ? "mdi:eye-outline" : "mdi:eye-off-outline"}
+            icon={!isPasswordVisible ? "mdi:eye-outline" : "mdi:eye-off-outline"}
           
           />
         </span>

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
 import { authorizedApi } from "../utils/api";
@@ -60,6 +60,14 @@ const UserProvider = ({ children }) => {
 
 UserProvider.propTypes = {
   children: PropTypes.node.isRequired,
+};
+
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
 };
 
 export default UserProvider;

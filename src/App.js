@@ -13,6 +13,7 @@ import Favorites from "./pages/Favorites";
 import AppLayout from "./components/layout/AppLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import UserProvider from "./contexts/UserContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/auth/login" element={<Login />} />
           </Route>
         </Routes>
+        <Toaster />
       </UserProvider>
     </BrowserRouter>
   );

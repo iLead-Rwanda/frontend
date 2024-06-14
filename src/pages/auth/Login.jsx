@@ -2,16 +2,42 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CustomInput from "../../components/core/CustomInput";
 import Button from "../../components/core/Button";
+import { unauthorizedApi } from "../../utils/api";
+import toast from "react-hot-toast";
+import { useUser } from "../../contexts/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const validate = () => {
+    let validationErrors = {};
+
+    if (!email.trim()) {
+      validationErrors.email = "Email is required.";
+    } else if (!validateEmail(email)) {
+      validationErrors.email = "Invalid email format.";
+    }
+
+    if (!password.trim()) {
+      validationErrors.password = "Password is required.";
+    } else if (!validatePassword(password)) {
+      validationErrors.password =
+        "Password must be at least 8 characters long and include lowercase, uppercase, numbers, and symbols.";
+    }
+
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  };
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
+  const { setUser } = useUser();
 
   const validatePassword = (password) => {
     const passwordRegex =
@@ -19,33 +45,40 @@ const Login = () => {
     return passwordRegex.test(password);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let validationErrors = {};
 
-    if (!validateEmail(email)) {
-      validationErrors.email = "Invalid email format";
+    if (!validate()) {
+      return;
     }
-
-    if (!validatePassword(password)) {
-      validationErrors.password =
-        "Password must be at least 8 characters long and include lowercase, uppercase, numbers, and symbols";
+    setLoading(true);
+    try {
+      const response = await unauthorizedApi.post("/auth/login", {
+        email,
+        password,
+      });
+      localStorage.setItem("user", response.data.user);
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      setUser(response.data.user);
+      console.log("Login successful:", response.data);
+    } catch (error) {
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Error while logging in");
+      }
     }
-
-    if (Object.keys(validationErrors).length === 0) {
-      console.log({ email, password });
-    } else {
-      setErrors(validationErrors);
-    }
+    setLoading(false);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen pl-20 ">
-      <div className="bg-white backdrop-blur-xl bg-opacity-10 p-8 rounded-lg  border border-primary w-full">
-        <p className="text-3xl font-bold mb-2  text-primary">
-          Welcome to Ilead MIS
+    <div className="flex items-center justify-center min-h-screen pl-20">
+      <div className="bg-white backdrop-blur-xl bg-opacity-10 p-8 rounded-lg border border-primary w-full">
+        <p className="text-3xl font-bold mb-2 text-primary">
+          Welcome to Ilead Certification System
         </p>
-        <p className="text-sm  mb-6  text-secondary">
+        <p className="text-sm mb-6 text-secondary">
           Log in to mis, your work is done for you!!!
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -61,10 +94,10 @@ const Login = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => {
-                if (errors.email) {
-                  setErrors((prev) => ({ ...prev, email: null }));
-                }
                 setEmail(e.target.value);
+                if (errors.email) {
+                  setErrors((prev) => ({ ...prev, email: undefined }));
+                }
               }}
               prefix="mdi:email"
             />
@@ -84,10 +117,10 @@ const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => {
-                if (errors.password) {
-                  setErrors((prev) => ({ ...prev, password: null }));
-                }
                 setPassword(e.target.value);
+                if (errors.password) {
+                  setErrors((prev) => ({ ...prev, password: undefined }));
+                }
               }}
               prefix="mdi:lock"
             />
@@ -95,8 +128,13 @@ const Login = () => {
               <p className="text-red-500 text-xs mt-1">{errors.password}</p>
             )}
           </div>
-          <Button variant="primary" type="submit" className={"w-full"}>
-            <p className="w-full">Login</p>
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-full"
+            loading={loading}
+          >
+            <p>Login</p>
           </Button>
         </form>
         <div className="mt-6 text-center">
