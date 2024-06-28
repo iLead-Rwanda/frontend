@@ -6,6 +6,7 @@ import Dashboard from "./Pages/Dash";
 import Notification from "./Pages/Student";
 import AddStudent from "./Pages/AddStudent";
 import RegisteredStudents from "./Pages/RegisteredStudents";
+import Certificates from "./Pages/Certificates";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/students" element={<Notification />} />
         <Route path="/add" element={<AddStudent />} />
         <Route path="/all" element={<RegisteredStudents />} />
+        <Route path="/certificates" element={<Certificates />}/>
       </Routes>
     </BrowserRouter>
   );
