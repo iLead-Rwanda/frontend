@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import certi from "../Assets/certi.png";
 import arrow from "../Assets/arrowCorner.png";
+import { Link } from "react-router-dom";
 
 const categories = [
   { title: "iChoose" },
@@ -21,10 +22,12 @@ const Category = () => {
             <Icon icon="mingcute:certificate-fill" className="text-yellow-600" style={{ fontSize: 24 }} />
             <p className="text-lg font-bold">{category.title}</p>
             <img src={certi} alt="" width={250} />
+            <Link to="/one">
             <button className="button-signin relative top-[-55px] flex justify-center items-center gap-2 p-1 px-2 rounded-full transition duration-300 bg-[#eeeae5] hover:bg-[#D8C5AE] hover:text-white text-sm">
               <img src={arrow} alt="" />
               Generate certificate
             </button>
+            </Link>
           </div>
         ))}
       </div>

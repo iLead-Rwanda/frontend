@@ -9,6 +9,8 @@ import RegisteredStudents from "./Pages/RegisteredStudents";
 import NewStudent from "./Pages/NewStudent";
 import Certificate from "./Pages/Certificate";
 import OneCertifiate from "./Pages/OneCertificate";
+import Analytics from "./Pages/Analytics";
+import Favorites from "./Pages/Favorites";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/new" element={<NewStudent />} />
         <Route path="/certi" element={<Certificate />} />
         <Route path="/one" element={<OneCertifiate />} />
+        <Route path="/ana" element={<Analytics />} />
+        <Route path="/fav" element={<Favorites />} />
       </Routes>
     </BrowserRouter>
   );

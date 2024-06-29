@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import student from "../Assets/student.png"
+import { Link } from 'react-router-dom';
 
 const StudentList=()=>{
     
@@ -12,7 +13,8 @@ const StudentList=()=>{
                     <p className='font-bold text-2xl'>iChoose</p>
                     <img src={student} alt="" />
                     <p className='text-[#363A3D] font-medium'>Ineza Cinta Castella</p>
-                    <button className='transition duration-300 ease-in-out text-xs bg-[#e4d7ca] hover:bg-[#CCAD8F] text-[#B58A5F] p-1 px-3 rounded-full'>Generate certificate</button>                
+                 <Link to="/one">
+                 <button className='transition duration-300 ease-in-out text-xs bg-[#e4d7ca] hover:bg-[#CCAD8F] text-[#B58A5F] p-1 px-3 rounded-full'>Generate certificate</button></Link>                
                </div>
             </div>
         </div>
