@@ -21,7 +21,7 @@ function App() {
         <Route path="/add" element={<AddStudent />} />
         <Route path="/all" element={<RegisteredStudents />} />
         <Route path="/new" element={<NewStudent />} />
-        <Route path="/new" element={<Certificate />} />
+        <Route path="/certi" element={<Certificate />} />
       </Routes>
     </BrowserRouter>
   );

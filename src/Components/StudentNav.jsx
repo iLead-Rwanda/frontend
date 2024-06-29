@@ -29,10 +29,11 @@ const StudentNav = () => {
             <Icon icon="mingcute:add-fill"/>
             <p>Add new student</p>
         </button></Link>
+        <Link to="/certi">
         <button className="bg-[#B58A5F] hover:bg-[#c5ab91] flex justify-center items-center gap-1 p-1 px-3 text-white rounded-md">
             <Icon icon="mingcute:add-fill"/>
             <p>Generate All certified</p>
-        </button>
+        </button></Link>
       </div>
     </div>
   );
