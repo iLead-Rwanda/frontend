@@ -56,6 +56,14 @@ const Sidebar = () => {
       containerBgColor: "#FFFFFF",
       link: "/fav",
     },
+    {
+      icon: "mingcute:add-fill",
+      text: "Add student",
+      bgColor: "#E87D7D1A",
+      textColor: "#E87D7D",
+      containerBgColor: "#FFFFFF",
+      link: "/add",
+    },
   ];
 
   const location = useLocation();
