@@ -1,14 +1,18 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const StudentNav = () => {
+const { category }=useParams()
   return (
     <div className="flex justify-between items-center">
-      <p className="text-lg font-bold">iChoose Students registered</p>
+      <p className="text-lg font-bold">{category} Students registered</p>
       <div className="flex">
         <select name="filter" id="filter" className="text-[#85878D] text-sm p-1 rounded-md focus:border-[#B58A5F] focus:border-[0.5px] focus:outline-none focus:shadow-[0_0_5px_rgba(183,138,95,0.5)]">
-            <option value="">Add filter</option>
+            <option value="filter">Add filter</option>
+            <option value="ichoose">iChoose</option>
+            <option value="ido">iDo</option>
+            <option value="ilead">iLead</option>
         </select>
         <div className="flex flex-col justify-between items-center gap-48">
           <div className="flex justify-center items-center gap-2">

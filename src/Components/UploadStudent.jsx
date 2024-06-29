@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const UploadStudent = () => {
+  const {category}=useParams()
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [progress, setProgress] = useState({});
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -65,7 +66,7 @@ const UploadStudent = () => {
   };
   return (
     <div className="w-full flex flex-col gap-10">
-      <p className="text-lg font-bold">iChoose Students registered</p>
+      <p className="text-lg font-bold">{category} Students registered</p>
       <div className="w-full flex justify-center items-center">
         <div className="w-[50%] flex flex-col justify-center items-center p-10 gap-5 bg-white rounded-md">
           <p className="text-lg font-semibold text-[#0F0F0F]">Upload</p>

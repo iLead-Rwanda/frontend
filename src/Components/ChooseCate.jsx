@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 const Choose = () => {
   return (
@@ -32,13 +32,12 @@ const Choose = () => {
               />
               <p className="text-lg font-bold">{item.name}</p>
             </div>
-            <Link to="/students">
+            <Link to={`/students/${item.name}`}>
               {" "}
               <button className="text-xs text-[#B58A5F] bg-[#f3ece5] hover:bg-[#CCAD8F] hover:text-white p-2 py-1 rounded-lg transition duration-300 ease-in-out">
                 View students
               </button>
             </Link>
-
             <div className="flex flex-col justify-center items-center text-[#000000B2]">
               <p className="font-bold text-base">Student No</p>
               <p className="font-normal text-sm">No student yet!</p>

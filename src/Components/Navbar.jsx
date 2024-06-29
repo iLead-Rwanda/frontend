@@ -1,13 +1,14 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ onSearchClick }) => {
   const icons = [
-    { icon: "ph:sun-bold" },
-    { icon: "solar:share-linear" },
-    { icon: "ph:clock" },
-    { icon: "system-uicons:write" },
-    { icon: "solar:upload-outline", className: "icon rotate-90" },
+    { icon: "ph:sun-bold", link:"/" },
+    { icon: "solar:share-linear", link:"/" },
+    { icon: "ph:clock", link:"/" },
+    { icon: "system-uicons:write", link:"/" },
+    { icon: "solar:upload-outline", className: "icon rotate-90", link:"/login" },
   ];
 
   return (
@@ -43,9 +44,11 @@ const Navbar = ({ onSearchClick }) => {
       </div>
       <div className="flex justify-center items-center gap-4">
         {icons.map((icon, index) => (
+          <Link to={icon.link}>
           <div key={index} className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
             <Icon icon={icon.icon} className={`transition duration-300 ease-in-out ${icon.className}`} />
           </div>
+          </Link>
         ))}
       </div>
     </div>

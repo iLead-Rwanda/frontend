@@ -8,7 +8,10 @@ const CertiNav = () => {
       <p className="text-lg font-bold">Student's report cards</p>
       <div className="flex">
         <select name="filter" id="filter" className="text-[#85878D] text-sm p-1 rounded-md focus:border-[#B58A5F] focus:border-[0.5px] focus:outline-none focus:shadow-[0_0_5px_rgba(183,138,95,0.5)]">
-            <option value="">Add filter</option>
+            <option value="filter">Add filter</option>
+            <option value="ichoose">iChoose</option>
+            <option value="ido">iDo</option>
+            <option value="ilead">iLead</option>
         </select>
         <div className="flex flex-col justify-between items-center gap-48">
           <div className="flex justify-center items-center gap-2">

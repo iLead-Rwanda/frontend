@@ -1,11 +1,12 @@
 import React from "react";
 import no_noti from "../Assets/no_notification.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const StudentInfo = () => {
+  const { category }=useParams()
   return (
     <div className="w-full flex flex-col gap-10">
-      <p className="text-lg font-bold">iChoose Students registered</p>
+      <p className="text-lg font-bold">{category} Students registered</p>
       <div className="w-full flex flex-col justify-center items-center gap-10">
         <div className="flex flex-col justify-center items-center gap-2">
           <img src={no_noti} alt="" width={400}/>
