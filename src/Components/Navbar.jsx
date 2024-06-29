@@ -2,6 +2,14 @@ import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 const Navbar = ({ onSearchClick }) => {
+  const icons = [
+    { icon: "ph:sun-bold" },
+    { icon: "solar:share-linear" },
+    { icon: "ph:clock" },
+    { icon: "system-uicons:write" },
+    { icon: "solar:upload-outline", className: "icon rotate-90" },
+  ];
+
   return (
     <div className="navbar w-full flex justify-between items-center px-12">
       <div className="font-semibold flex flex-col justify-start items-start">
@@ -15,15 +23,15 @@ const Navbar = ({ onSearchClick }) => {
             placeholder="Search from certificates..."
             className="p-1 border border-1 border-[#e0dfdd] rounded-md"
           />
-           <div
-          className="p-2 border border-1 border-[#e0dfdd] rounded-md cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
-          onClick={() => {
-            document.getElementById("search").style.display = "flex";
-            onSearchClick(); 
-          }}
-        >
-          <Icon icon="mingcute:search-line" />
-        </div>
+          <div
+            className="p-2 border border-1 border-[#e0dfdd] rounded-md cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
+            onClick={() => {
+              document.getElementById("search").style.display = "flex";
+              onSearchClick(); 
+            }}
+          >
+            <Icon icon="mingcute:search-line" />
+          </div>
         </div>
         <div
           id="search"
@@ -34,36 +42,11 @@ const Navbar = ({ onSearchClick }) => {
         </div>
       </div>
       <div className="flex justify-center items-center gap-4">
-        <div className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
-          <Icon
-            icon="ph:sun-bold"
-            className="transition duration-300 ease-in-out"
-          />
-        </div>
-        <div className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-[#B58A5F] hover:text-[#fceac5]">
-          <Icon
-            icon="solar:share-linear"
-            className="transition duration-300 ease-in-out"
-          />
-        </div>
-        <div className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
-          <Icon
-            icon="ph:clock"
-            className="transition duration-300 ease-in-out"
-          />
-        </div>
-        <div className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
-          <Icon
-            icon="system-uicons:write"
-            className="transition duration-300 ease-in-out"
-          />
-        </div>
-        <div className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
-          <Icon
-            icon="solar:upload-outline"
-            className="icon rotate-90 transition duration-300 ease-in-out"
-          />
-        </div>
+        {icons.map((icon, index) => (
+          <div key={index} className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
+            <Icon icon={icon.icon} className={`transition duration-300 ease-in-out ${icon.className}`} />
+          </div>
+        ))}
       </div>
     </div>
   );

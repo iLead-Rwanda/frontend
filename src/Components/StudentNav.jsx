@@ -1,5 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { Link } from "react-router-dom";
 
 const StudentNav = () => {
   return (
@@ -23,10 +24,11 @@ const StudentNav = () => {
         </div>
       </div>
       <div className="flex justify-center items-center gap-3">
-        <button className="bg-[#F2EBE4] hover:bg-[#b49779] flex justify-center items-center gap-1 p-1 px-3 text-white rounded-md">
+       <Link to="/new">
+       <button className="bg-[#F2EBE4] hover:bg-[#b49779] flex justify-center items-center gap-1 p-1 px-3 text-white rounded-md">
             <Icon icon="mingcute:add-fill"/>
             <p>Add new student</p>
-        </button>
+        </button></Link>
         <button className="bg-[#B58A5F] hover:bg-[#c5ab91] flex justify-center items-center gap-1 p-1 px-3 text-white rounded-md">
             <Icon icon="mingcute:add-fill"/>
             <p>Generate All certified</p>

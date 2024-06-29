@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import student from "../Assets/student.png"
 
 const StudentList=()=>{
+    
     return(
         <div>
             <div>
