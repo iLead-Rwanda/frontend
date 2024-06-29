@@ -1,8 +1,24 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import jsPDF from 'jspdf';
 
-const CertiNav = () => {
 
+
+const CertiOneNav = () => {
+    const handleDownloadCertificate = () => {
+        const img = document.getElementById('certificate-img');
+        const imgSrc = img.src;
+        const pdf = new jsPDF();
+        const imgData = imgSrc;
+        pdf.addImage(imgData, 'PNG', 0, 0);
+        const pdfBlob = pdf.output('blob');
+        const filename = 'certificate.pdf';
+        const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+      }; 
   return (
     <div className="flex justify-between items-center">
       <p className="text-lg font-bold">Student's report cards</p>
@@ -24,15 +40,17 @@ const CertiNav = () => {
         </div>
       </div>
       <div className="flex justify-center items-center gap-3">
+       
       <button
           className="bg-[#B58A5F] hover:bg-[#c5ab91] flex justify-center items-center gap-1 p-1 px-3 text-white rounded-md"
+          onClick={handleDownloadCertificate}
         >
           <Icon icon="mingcute:add-fill"/>
-          <p>Download All certificates</p>
+          <p>Download certificate</p>
         </button>
       </div>
     </div>
   );
 };
 
-export default CertiNav;
+export default CertiOneNav;

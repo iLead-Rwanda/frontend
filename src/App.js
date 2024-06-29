@@ -8,6 +8,7 @@ import AddStudent from "./Pages/AddStudent";
 import RegisteredStudents from "./Pages/RegisteredStudents";
 import NewStudent from "./Pages/NewStudent";
 import Certificate from "./Pages/Certificate";
+import OneCertifiate from "./Pages/OneCertificate";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/all" element={<RegisteredStudents />} />
         <Route path="/new" element={<NewStudent />} />
         <Route path="/certi" element={<Certificate />} />
+        <Route path="/one" element={<OneCertifiate />} />
       </Routes>
     </BrowserRouter>
   );
