@@ -11,6 +11,9 @@ import Certificate from "./Pages/Certificate";
 import OneCertifiate from "./Pages/OneCertificate";
 import Analytics from "./Pages/Analytics";
 import Favorites from "./Pages/Favorites";
+import Certificates from "./Pages/Certificates";
+import AllStudents from "./Pages/AllStudents";
+import AddNewStudent from "./Pages/AddNewStudent";
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
         <Route path="/one" element={<OneCertifiate />} />
         <Route path="/ana" element={<Analytics />} />
         <Route path="/fav" element={<Favorites />} />
+        <Route path="/certificates" element={<Certificates />} />
+        <Route path="/all-students" element={<AllStudents />} />
+        <Route path="/add-new-student" element={<AddNewStudent />} />
       </Routes>
     </BrowserRouter>
   );
