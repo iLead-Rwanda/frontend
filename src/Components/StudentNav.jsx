@@ -6,7 +6,7 @@ const StudentNav = () => {
 const { category }=useParams()
   return (
     <div className="flex justify-between items-center">
-      <p className="text-lg font-bold">{category} Students registered</p>
+      <Link to="/all-students"><p className="text-lg font-bold">{category} Students registered</p></Link>
       <div className="flex">
         <select name="filter" id="filter" className="text-[#85878D] text-sm p-1 rounded-md focus:border-[#B58A5F] focus:border-[0.5px] focus:outline-none focus:shadow-[0_0_5px_rgba(183,138,95,0.5)]">
             <option value="filter">Add filter</option>

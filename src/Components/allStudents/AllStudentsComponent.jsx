@@ -2,10 +2,12 @@ import React from "react";
 import arrowBack from "../../Assets/arrow-back.svg";
 import profile from "../../Assets/profile.svg";
 import smallCert from "../../Assets/small_cert.png";
+import { Link } from "react-router-dom";
 
 const AllStudentsComponent = () => {
   return (
     <div className={`w-[100%] h-[100%] flex flex-col gap-[10px]`}>
+      <Link to="/all">
       <div className={`flex gap-[15px] items-center`}>
         <img
           src={arrowBack}
@@ -13,7 +15,7 @@ const AllStudentsComponent = () => {
           className={`w-[25px] h-[25px] cursor-pointer`}
         />
         <p className={`text-[#646464] text-[14px] font-bold`}>All students</p>
-      </div>
+      </div></Link>
 
       <table className={`w-[100%] h-[100%]`}>
         <thead>

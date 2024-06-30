@@ -3,7 +3,7 @@ import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import CertificatesComponent from "../Components/certificates/CertificatesComponent";
 
-const Certificates = () => {
+const Documents = () => {
   const [showCategoryAndChoose, setShowCategoryAndChoose] = useState(true);
 
   const handleSearchClick = () => {
@@ -26,4 +26,4 @@ const Certificates = () => {
   );
 };
 
-export default Certificates;
+export default Documents;
