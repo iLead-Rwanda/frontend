@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import useGet from "../hooks/useGet";
 import { useModal } from "../contexts/ModalContext";
 import Button from "../components/core/Button";
-import AddEditProvince from "../components/core/CustomInput";
+import AddEditProvince from "../components/province/AddEditProvince";
 
 const ProvinceSchools = () => {
   const {
     data: provincesData,
     loading: provincesLoading,
     error: provincesError,
+    refetch: refetchProvinces,
   } = useGet("/provinces");
 
   const {
@@ -17,9 +18,6 @@ const ProvinceSchools = () => {
     error: schoolsError,
   } = useGet("/schools");
 
-  const [provinces, setProvinces] = useState(provincesData || []);
-  const [schools, setSchools] = useState(schoolsData || []);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredProvince, setHoveredProvince] = useState(null);
 
@@ -27,12 +25,12 @@ const ProvinceSchools = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredSchools = schools.filter((school) =>
+  const filteredSchools = schoolsData?.filter((school) =>
     school.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const { openModal, closeModal } = useModal();
-
+  console.log(provincesData);
   return (
     <div className="p-6">
       <div className="flex items-center justify-between">
@@ -44,6 +42,7 @@ const ProvinceSchools = () => {
               <AddEditProvince
                 onClose={() => {
                   closeModal();
+                  refetchProvinces();
                 }}
               />
             )
@@ -58,11 +57,11 @@ const ProvinceSchools = () => {
         <div className="text-center text-red-500 py-4">
           Error loading provinces: {provincesError.message}
         </div>
-      ) : provinces.length === 0 ? (
+      ) : provincesData.length === 0 ? (
         <div className="text-center py-4">No provinces found.</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {provinces.map((province, index) => (
+          {provincesData.map((province, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl p-6 relative shadow-md"
@@ -72,8 +71,10 @@ const ProvinceSchools = () => {
               <h2 className="text-xl font-semibold text-gray-700 mb-2">
                 {province.name}
               </h2>
-              <p className="text-gray-600">{province.admin.name}</p>
-              <p className="text-gray-600 mb-4">{province.admin.email}</p>
+              <div className="text-sm">
+                <p className="text-gray-600">{province.User[0].name}</p>
+                <p className="text-gray-600 mb-4">{province.User[0].email}</p>
+              </div>
               {hoveredProvince === index && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-white bg-opacity-90 flex justify-around">
                   <button className="bg-blue-500 text-white px-2 py-1 rounded">

@@ -1,23 +1,30 @@
 import React, { useState } from "react";
-import CustomInput from "../core/CustomInput";
+import PropTypes from "prop-types";
+import CustomInput from "../../components/core/CustomInput";
+import Button from "../core/Button";
+import { useModal } from "../../contexts/ModalContext";
+import { createProvince } from "../../utils/funcs/provinces";
 
-const AddEditProvince = ({ closeFunction, defaultData }) => {
+const AddEditProvince = ({ onClose, defaultData }) => {
   const [provinceName, setProvinceName] = useState(defaultData?.name || "");
   const [adminName, setAdminName] = useState(defaultData?.admin?.name || "");
   const [adminEmail, setAdminEmail] = useState(defaultData?.admin?.email || "");
   const [errors, setErrors] = useState({});
+  const { closeModal } = useModal();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      console.log(
-        `Submitting province data: ${provinceName}, ${adminName}, ${adminEmail}`
+      setLoading(true);
+      await createProvince(
+        { name: provinceName, adminName, adminEmail },
+        onClose
       );
-      // Simulate form submission by closing the modal or form
-      closeFunction();
+      setLoading(false);
+      onClose();
     } else {
-      // Form has errors, handle them (e.g., display errors)
       setErrors(errors);
     }
   };
@@ -44,9 +51,9 @@ const AddEditProvince = ({ closeFunction, defaultData }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-lg w-96">
-        <h2 className="text-2xl font-bold mb-4">
+    <div className="">
+      <div className="bg-white  rounded-lg w-full">
+        <h2 className="text-2xl font-bold mb-4 text-primary">
           {defaultData ? "Edit Province" : "Add Province"}
         </h2>
         <form onSubmit={handleSubmit}>
@@ -61,14 +68,18 @@ const AddEditProvince = ({ closeFunction, defaultData }) => {
               type="text"
               id="provinceName"
               value={provinceName}
-              onChange={(e) => setProvinceName(e.target.value)}
-              className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                errors.provinceName ? "border-red-500" : ""
-              }`}
+              onChange={(e) => {
+                if (errors.provinceName) {
+                  setErrors((prev) => ({ ...prev, provinceName: null }));
+                }
+                setProvinceName(e.target.value);
+              }}
               placeholder="Enter province name"
             />
             {errors.provinceName && (
-              <p className="text-red-500 text-sm mt-1">{errors.provinceName}</p>
+              <p className="text-red-500 italic text-sm mt-1">
+                {errors.provinceName}
+              </p>
             )}
           </div>
           <div className="mb-4">
@@ -82,14 +93,18 @@ const AddEditProvince = ({ closeFunction, defaultData }) => {
               type="text"
               id="adminName"
               value={adminName}
-              onChange={(e) => setAdminName(e.target.value)}
-              className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                errors.adminName ? "border-red-500" : ""
-              }`}
+              onChange={(e) => {
+                if (errors.adminName) {
+                  setErrors((prev) => ({ ...prev, adminName: null }));
+                }
+                setAdminName(e.target.value);
+              }}
               placeholder="Enter admin name"
             />
             {errors.adminName && (
-              <p className="text-red-500 text-sm mt-1">{errors.adminName}</p>
+              <p className="text-red-500 italic text-sm mt-1">
+                {errors.adminName}
+              </p>
             )}
           </div>
           <div className="mb-4">
@@ -103,35 +118,43 @@ const AddEditProvince = ({ closeFunction, defaultData }) => {
               type="email"
               id="adminEmail"
               value={adminEmail}
-              onChange={(e) => setAdminEmail(e.target.value)}
-              className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-                errors.adminEmail ? "border-red-500" : ""
-              }`}
+              onChange={(e) => {
+                if (errors.adminEmail) {
+                  setErrors((prev) => ({ ...prev, adminEmail: null }));
+                }
+                setAdminEmail(e.target.value);
+              }}
               placeholder="Enter admin email"
             />
             {errors.adminEmail && (
-              <p className="text-red-500 text-sm mt-1">{errors.adminEmail}</p>
+              <p className="text-red-500 italic text-sm mt-1">
+                {errors.adminEmail}
+              </p>
             )}
           </div>
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={closeFunction}
-              className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-            >
+          <div className="flex justify-end gap-5">
+            <Button variant="secondary" type="button" onClick={closeModal}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+            </Button>
+            <Button variant="primary" type="submit" loading={loading}>
               {defaultData ? "Update" : "Add"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
     </div>
   );
+};
+
+AddEditProvince.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  defaultData: PropTypes.shape({
+    name: PropTypes.string,
+    admin: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+    }),
+  }),
 };
 
 export default AddEditProvince;

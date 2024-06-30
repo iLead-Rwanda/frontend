@@ -16,7 +16,7 @@ const Button = ({
   if (variant === "primary") {
     variantStyles = "bg-primary text-white";
   } else if (variant === "secondary") {
-    variantStyles = "border border-myBlue text-white";
+    variantStyles = "border border-primary text-primary";
   } else if (variant === "blue") {
     variantStyles = "bg-myBlue border-blue-900 border text-white";
   } else if (variant === "red") {
