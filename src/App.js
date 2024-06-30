@@ -12,27 +12,30 @@ import Analytics from "./pages/Analytics";
 import Favorites from "./pages/Favorites";
 import AppLayout from "./components/layout/AppLayout";
 import AuthLayout from "./components/layout/AuthLayout";
+import UserProvider from "./contexts/UserContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AppLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/students/:category" element={<Notification />} />
-          <Route path="/add" element={<AddStudent />} />
-          <Route path="/all" element={<RegisteredStudents />} />
-          <Route path="/new" element={<NewStudent />} />
-          <Route path="/certi" element={<Certificate />} />
-          <Route path="/one" element={<OneCertifiate />} />
-          <Route path="/ana" element={<Analytics />} />
-          <Route path="/fav" element={<Favorites />} />
-        </Route>
-        {/* <Route path="/register" element={<Register />} /> */}
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="/auth/login" element={<Login />} />
-        </Route>
-      </Routes>
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/students/:category" element={<Notification />} />
+            <Route path="/add" element={<AddStudent />} />
+            <Route path="/all" element={<RegisteredStudents />} />
+            <Route path="/new" element={<NewStudent />} />
+            <Route path="/certi" element={<Certificate />} />
+            <Route path="/one" element={<OneCertifiate />} />
+            <Route path="/ana" element={<Analytics />} />
+            <Route path="/fav" element={<Favorites />} />
+          </Route>
+          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="/auth/login" element={<Login />} />
+          </Route>
+        </Routes>
+      </UserProvider>
     </BrowserRouter>
   );
 }
