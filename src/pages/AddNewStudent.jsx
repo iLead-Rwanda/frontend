@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import AddNewStudentForm from "../Components/addNewStudent/AddNewStudentForm";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import AddNewStudentForm from "../components/addNewStudent/AddNewStudentForm";
 
 const AddNewStudent = () => {
   const [showCategoryAndChoose, setShowCategoryAndChoose] = useState(true);

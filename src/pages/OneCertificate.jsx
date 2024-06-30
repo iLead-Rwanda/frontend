@@ -1,8 +1,8 @@
 import React from 'react';
-import Sidebar from '../Components/Sidebar';
-import Navbar from '../Components/Navbar';
-import SingleCertifiate from '../Components/SingleCertificate';
-import CertiOneNav from '../Components/CertiOneNav';
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+import SingleCertifiate from '../components/SingleCertificate';
+import CertiOneNav from '../components/CertiOneNav';
 
 const OneCertifiate=()=>{
     return(

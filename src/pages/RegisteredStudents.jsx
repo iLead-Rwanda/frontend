@@ -1,8 +1,8 @@
 import React from 'react';
-import Sidebar from '../Components/Sidebar';
-import Navbar from '../Components/Navbar';
-import StudentNav from '../Components/StudentNav';
-import StudentList from '../Components/StudentList';
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+import StudentNav from '../components/StudentNav';
+import StudentList from '../components/StudentList';
 
 const RegisteredStudents=()=>{
     return(

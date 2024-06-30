@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Icon } from "@iconify/react";
-import NavSignUp from "../../Components/NavSignUp";
+import NavSignUp from "../../components/NavSignUp";
 import { Link } from "react-router-dom";
 import images from "../../utils/images";
 

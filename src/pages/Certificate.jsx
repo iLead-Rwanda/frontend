@@ -1,9 +1,9 @@
 import React from 'react';
-import Sidebar from '../Components/Sidebar';
-import Navbar from '../Components/Navbar';
-import AllCertificates from '../Components/AllCertificates';
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+import AllCertificates from '../components/AllCertificates';
 
-import CertiNav from '../Components/CertiNav';
+import CertiNav from '../components/CertiNav';
 const Certificate=()=>{
     return(
         <div className='w-full flex'>

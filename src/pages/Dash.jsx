@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import Sidebar from '../Components/Sidebar';
-import Navbar from '../Components/Navbar';
-import Category from '../Components/Categories';
-import Choose from '../Components/ChooseCate';
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+import Category from '../components/Categories';
+import Choose from '../components/ChooseCate';
 
 const Dashboard=() =>{
   const [showCategoryAndChoose, setShowCategoryAndChoose] = useState(true);

@@ -1,8 +1,7 @@
 import React from "react";
-import logo from "../Assets/ilead.png";
-import profile from "../Assets/profile.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, useLocation } from "react-router-dom";
+import images from "../utils/images";
 
 const Sidebar = () => {
   const sidebarItems = [
@@ -69,7 +68,7 @@ const Sidebar = () => {
   const location = useLocation();
   return (
     <div className=" min-w-[20%] w-[20%]  flex flex-col justify-start items-center gap-6 bg-[#D8C5AE] h-screen">
-      <img src={logo} alt="" className="w-full" />
+      <img src={images.logo} alt="" className="w-full" />
       <div className="w-full flex flex-col justify-between h-full items-center">
         <div className="flex flex-col justify-center items-center w-full gap-3">
           {sidebarItems.map((item, index) => (
@@ -113,7 +112,7 @@ const Sidebar = () => {
           <div className="flex justify-center items-center gap-1">
             <div class="relative inline-block">
               <img
-                src={profile}
+                src={images.profile}
                 alt=""
                 class="h-10 w-10 rounded-full cursor-pointer hover:opacity-[0.5]"
               />

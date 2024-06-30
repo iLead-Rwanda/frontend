@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import UploadStudent from "../Components/UploadStudent";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import UploadStudent from "../components/UploadStudent";
 
 const AddStudent = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
-import Sidebar from '../Components/Sidebar';
-import Navbar from '../Components/Navbar';
-import StudentInfo from '../Components/StudentInfo';
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+import StudentInfo from '../components/StudentInfo';
 
 const Student=()=>{
     return(

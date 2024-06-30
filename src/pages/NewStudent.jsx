@@ -1,8 +1,8 @@
 import React from 'react';
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import NewStudentNav from '../Components/NewStudentNav';
-import AddNewStudent from '../Components/AddNewStudent';
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import NewStudentNav from '../components/NewStudentNav';
+import AddNewStudent from '../components/AddNewStudent';
 
 const NewStudent=()=>{
     return(

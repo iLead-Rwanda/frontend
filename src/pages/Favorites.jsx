@@ -1,7 +1,7 @@
 import React from 'react';
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import Gif from '../Components/Gif';
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import Gif from '../components/Gif';
 
 const Favorites=()=>{
     return(

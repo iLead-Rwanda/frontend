@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import CertificatesComponent from "../Components/certificates/CertificatesComponent";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import CertificatesComponent from "../components/certificates/CertificatesComponent";
 
 const Documents = () => {
   const [showCategoryAndChoose, setShowCategoryAndChoose] = useState(true);

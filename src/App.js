@@ -1,5 +1,4 @@
 import "./App.css";
-import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/Dash";
@@ -11,7 +10,8 @@ import Certificate from "./pages/Certificate";
 import OneCertifiate from "./pages/OneCertificate";
 import Analytics from "./pages/Analytics";
 import Favorites from "./pages/Favorites";
-import AppLayout from "./Components/layout/AppLayout";
+import AppLayout from "./components/layout/AppLayout";
+import AuthLayout from "./components/layout/AuthLayout";
 
 function App() {
   return (
@@ -29,7 +29,9 @@ function App() {
           <Route path="/fav" element={<Favorites />} />
         </Route>
         {/* <Route path="/register" element={<Register />} /> */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="/auth/login" element={<Login />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
