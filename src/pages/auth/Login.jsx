@@ -1,8 +1,8 @@
 import React from "react";
 import { Icon } from "@iconify/react";
-import Quote from "../Assets/Quote.png";
-import NavLogin from "../Components/NavLogIn";
+import NavLogin from "../../Components/NavLogIn";
 import { Link } from "react-router-dom";
+import images from "../../utils/images";
 
 const Login = () => {
   return (
@@ -15,7 +15,7 @@ const Login = () => {
               <h3 className="text-[#B58A5F] font-poppins text-3xl font-normal leading-[54px]">
                 Welcome to Ilead MIS
               </h3>
-              <div className="flex justify-center items-center gap-4 p-5">
+              {/* <div className="flex justify-center items-center gap-4 p-5">
                 <button className="flex w-[180px] bg-[#D8C5AE] hover:bg-[#e6e2dd] rounded-md justify-center items-center p-2">
                   <Icon
                     icon="flat-color-icons:google"
@@ -35,7 +35,7 @@ const Login = () => {
                 <p className="cursor-pointer hover:text-base">
                   or continue with e-mail
                 </p>
-              </div>
+              </div> */}
             </div>
             <div className="inputs flex flex-col gap-6">
               <div class="flex flex-col justify-start items-start">
@@ -71,13 +71,16 @@ const Login = () => {
               Forgot password?
             </div>
           </div>
-          <Link to="/dash" className="cursor-pointer hover:p-3 bg-[#B58A5F] hover:bg-[#e6e2dd] text-black font-semibold text-base flex justify-center items-center p-2 rounded-md">
-              Login
+          <Link
+            to="/dash"
+            className="cursor-pointer hover:p-3 bg-[#B58A5F] hover:bg-[#e6e2dd] text-black font-semibold text-base flex justify-center items-center p-2 rounded-md"
+          >
+            Login
           </Link>
         </div>
         <div className=" flex flex-col justify-start items-start gap-10">
           <div className="w-[92px]">
-            <img src={Quote} alt="" />
+            <img src={images.Quote} alt="" />
           </div>
           <div className="font-spaceGrotesk text-2xl font-normal leading-loose tracking-tighter text-left w-[50%] px-8">
             We don't make mistakes, just happy little accidents.

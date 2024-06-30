@@ -1,9 +1,9 @@
 import React from "react";
 
 import { Icon } from "@iconify/react";
-import Quote from "../Assets/Quote.png";
-import NavSignUp from "../Components/NavSignUp";
+import NavSignUp from "../../Components/NavSignUp";
 import { Link } from "react-router-dom";
+import images from "../../utils/images";
 
 const Register = () => {
   return (
@@ -88,8 +88,11 @@ const Register = () => {
               </span>
             </label>
           </div>
-          <Link to="/login" className="cursor-pointer hover:p-3 bg-[#B58A5F] hover:bg-[#e6e2dd] text-black font-semibold text-base flex justify-center items-center p-2 rounded-md">
-              Create free account
+          <Link
+            to="/login"
+            className="cursor-pointer hover:p-3 bg-[#B58A5F] hover:bg-[#e6e2dd] text-black font-semibold text-base flex justify-center items-center p-2 rounded-md"
+          >
+            Create free account
           </Link>
           <div className="flex justify-center items-center gap-4 p-5">
             <button className="flex w-[180px] bg-[#D8C5AE] hover:bg-[#e6e2dd] rounded-md justify-center items-center p-2">
@@ -115,7 +118,7 @@ const Register = () => {
         </div>
         <div className=" flex flex-col justify-start items-start gap-10">
           <div className="w-[92px]">
-            <img src={Quote} alt="" />
+            <img src={images.Quote} alt="" />
           </div>
           <div className="font-spaceGrotesk text-2xl font-normal leading-loose tracking-tighter text-left w-[50%] px-8">
             We don't make mistakes, just happy little accidents.

@@ -1,33 +1,35 @@
 import "./App.css";
-import Register from "./Pages/Register";
-import Login from "./Pages/Login";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Dashboard from "./Pages/Dash";
-import Notification from "./Pages/Student";
-import AddStudent from "./Pages/AddStudent";
-import RegisteredStudents from "./Pages/RegisteredStudents";
-import NewStudent from "./Pages/NewStudent";
-import Certificate from "./Pages/Certificate";
-import OneCertifiate from "./Pages/OneCertificate";
-import Analytics from "./Pages/Analytics";
-import Favorites from "./Pages/Favorites";
+import Dashboard from "./pages/Dash";
+import Notification from "./pages/Student";
+import AddStudent from "./pages/AddStudent";
+import RegisteredStudents from "./pages/RegisteredStudents";
+import NewStudent from "./pages/NewStudent";
+import Certificate from "./pages/Certificate";
+import OneCertifiate from "./pages/OneCertificate";
+import Analytics from "./pages/Analytics";
+import Favorites from "./pages/Favorites";
+import AppLayout from "./Components/layout/AppLayout";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={<Register />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<AppLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/students/:category" element={<Notification />} />
+          <Route path="/add" element={<AddStudent />} />
+          <Route path="/all" element={<RegisteredStudents />} />
+          <Route path="/new" element={<NewStudent />} />
+          <Route path="/certi" element={<Certificate />} />
+          <Route path="/one" element={<OneCertifiate />} />
+          <Route path="/ana" element={<Analytics />} />
+          <Route path="/fav" element={<Favorites />} />
+        </Route>
+        {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/login" element={<Login />} />
-        <Route path="/dash" element={<Dashboard />} />
-        <Route path="/students/:category" element={<Notification />} />
-        <Route path="/add" element={<AddStudent />} />
-        <Route path="/all" element={<RegisteredStudents />} />
-        <Route path="/new" element={<NewStudent />} />
-        <Route path="/certi" element={<Certificate />} />
-        <Route path="/one" element={<OneCertifiate />} />
-        <Route path="/ana" element={<Analytics />} />
-        <Route path="/fav" element={<Favorites />} />
       </Routes>
     </BrowserRouter>
   );
