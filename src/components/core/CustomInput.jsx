@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomInput from "../../components/core/CustomInput";
 
-const AddEditProvince = ({ closeFunction, defaultData }) => {
+const AddEditProvince = ({ onClose, defaultData }) => {
   const [provinceName, setProvinceName] = useState(defaultData?.name || "");
   const [adminName, setAdminName] = useState(defaultData?.admin?.name || "");
   const [adminEmail, setAdminEmail] = useState(defaultData?.admin?.email || "");
@@ -14,7 +14,7 @@ const AddEditProvince = ({ closeFunction, defaultData }) => {
       console.log(
         `Submitting province data: ${provinceName}, ${adminName}, ${adminEmail}`
       );
-      closeFunction();
+      onClose();
     } else {
       setErrors(errors);
     }
@@ -114,7 +114,7 @@ const AddEditProvince = ({ closeFunction, defaultData }) => {
           <div className="flex justify-end">
             <button
               type="button"
-              onClick={closeFunction}
+              onClick={onClose}
               className="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
             >
               Cancel

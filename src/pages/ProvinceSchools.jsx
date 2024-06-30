@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import useGet from "../hooks/useGet";
+import { useModal } from "../contexts/ModalContext";
+import Button from "../components/core/Button";
+import AddEditProvince from "../components/core/CustomInput";
 
 const ProvinceSchools = () => {
   const {
@@ -16,9 +19,6 @@ const ProvinceSchools = () => {
 
   const [provinces, setProvinces] = useState(provincesData || []);
   const [schools, setSchools] = useState(schoolsData || []);
-  const [newProvinceName, setNewProvinceName] = useState("");
-  const [newProvinceAdminName, setNewProvinceAdminName] = useState("");
-  const [newProvinceAdminEmail, setNewProvinceAdminEmail] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredProvince, setHoveredProvince] = useState(null);
@@ -27,29 +27,31 @@ const ProvinceSchools = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleAddProvince = () => {
-    // Simulating adding a new province to the list
-    const newProvince = {
-      name: newProvinceName,
-      admin: {
-        name: newProvinceAdminName,
-        email: newProvinceAdminEmail,
-      },
-    };
-    setProvinces([...provinces, newProvince]);
-
-    setNewProvinceName("");
-    setNewProvinceAdminName("");
-    setNewProvinceAdminEmail("");
-  };
-
   const filteredSchools = schools.filter((school) =>
     school.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const { openModal, closeModal } = useModal();
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-primary">Provinces</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold mb-6 text-primary">Provinces</h1>
+        <Button
+          variant="primary"
+          onClick={() =>
+            openModal(
+              <AddEditProvince
+                onClose={() => {
+                  closeModal();
+                }}
+              />
+            )
+          }
+        >
+          New Province
+        </Button>
+      </div>
       {provincesLoading ? (
         <div className="text-center py-4">Loading provinces...</div>
       ) : provincesError ? (
@@ -119,41 +121,6 @@ const ProvinceSchools = () => {
             ))}
           </div>
         )}
-      </div>
-
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold text-primary mb-6">
-          Add New Province
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Province Name"
-            value={newProvinceName}
-            onChange={(e) => setNewProvinceName(e.target.value)}
-            className="p-2 border-2 border-gray-300 rounded-md outline-none"
-          />
-          <input
-            type="text"
-            placeholder="Admin Name"
-            value={newProvinceAdminName}
-            onChange={(e) => setNewProvinceAdminName(e.target.value)}
-            className="p-2 border-2 border-gray-300 rounded-md outline-none"
-          />
-          <input
-            type="email"
-            placeholder="Admin Email"
-            value={newProvinceAdminEmail}
-            onChange={(e) => setNewProvinceAdminEmail(e.target.value)}
-            className="p-2 border-2 border-gray-300 rounded-md outline-none"
-          />
-        </div>
-        <button
-          onClick={handleAddProvince}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Add Province
-        </button>
       </div>
     </div>
   );
