@@ -14,8 +14,8 @@ const Navbar = ({ onSearchClick }) => {
   return (
     <div className="navbar w-full flex justify-between items-center px-12">
       <div className="font-semibold flex flex-col justify-start items-start">
-        <p>Welcome Castella👋</p>
-        <p className="text-[#686B6E] text-xs">Get all courses down here!</p>
+        <p>Welcome Admin👋</p>
+        <p className="text-[#686B6E] text-xs">Create certificates down here!</p>
       </div>
       <div className="flex flex-col justify-between items-center gap-48">
         <div className="flex justify-center items-center gap-2">
