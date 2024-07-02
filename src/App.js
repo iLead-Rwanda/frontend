@@ -3,7 +3,6 @@ import Login from "./pages/auth/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Notification from "./pages/Student";
 import AddStudent from "./pages/AddStudent";
-import RegisteredStudents from "./pages/RegisteredStudents";
 import NewStudent from "./pages/NewStudent";
 import Certificate from "./pages/main/Certificate";
 import OneCertifiate from "./pages/OneCertificate";
