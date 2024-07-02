@@ -18,7 +18,7 @@ const Sidebar = () => {
       containerBgColor: "#FFFFFF",
       hasNew: true,
       link: "/",
-      roles: ["Admin", "User"],
+      roles: ["Admin", "ProvincialAdmin"],
     },
     {
       icon: "ph:User-fill",
@@ -36,7 +36,7 @@ const Sidebar = () => {
       textColor: "#C211F8",
       containerBgColor: "#FFFFFF",
       link: "/students",
-      roles: ["Admin"],
+      roles: ["Admin", "ProvincialAdmin"],
     },
     {
       icon: "solar:gallery-bold",
@@ -45,7 +45,7 @@ const Sidebar = () => {
       textColor: "#F84E11",
       containerBgColor: "#FFFFFF",
       link: "/certificates",
-      roles: ["Admin", "User"],
+      roles: ["Admin", "ProvincialAdmin"],
     },
   ];
 
@@ -55,7 +55,7 @@ const Sidebar = () => {
       <div className="w-full flex flex-col justify-between h-full items-center">
         <div className="space-y-2 w-full px-5">
           {sidebarItems
-            .filter((item) => item.roles.includes(user.role)) // Filter items based on user role
+            .filter((item) => item.roles.includes(user?.role))
             .map((item, index) => (
               <div
                 key={index}
@@ -87,14 +87,14 @@ const Sidebar = () => {
           <div className="flex justify-center items-center gap-1">
             <div className="relative inline-block">
               <img
-                src={user.profile}
+                src={user?.profile}
                 alt=""
                 className="h-10 w-10 rounded-full cursor-pointer hover:opacity-[0.5]"
               />
             </div>
             <div>
               <p className="text-[#FFFFFF] text-sm font-semibold hover:underline cursor-pointer">
-                {user.name}
+                {user?.name}
               </p>
             </div>
           </div>

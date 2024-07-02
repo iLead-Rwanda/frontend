@@ -1,10 +1,21 @@
 import { useState } from "react";
 import images from "../../utils/images";
 import useGet from "../../hooks/useGet";
+import { useUser } from "../../contexts/UserContext";
+import { useModal } from "../../contexts/ModalContext";
+import Button from "../../components/core/Button";
+import AddManyStudents from "../../components/students/AddManyStudents";
 
 const Students = () => {
-  const { data: students, loading, error, refetch } = useGet("/students");
+  const { user } = useUser();
+  const {
+    data: students,
+    loading,
+    error,
+    refetch,
+  } = useGet(user.role === "Admin" ? "/students" : "/students/my-province");
   const [searchTerm, setSearchTerm] = useState("");
+  const { openModal, closeModal } = useModal();
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -17,6 +28,21 @@ const Students = () => {
 
   return (
     <div className="px-6">
+      <Button
+        variant="primary"
+        onClick={() =>
+          openModal(
+            <AddManyStudents
+              onClose={() => {
+                closeModal();
+                refetch();
+              }}
+            />
+          )
+        }
+      >
+        Add New Students
+      </Button>
       {loading && (
         <div className="text-center">
           <p>Loading students...</p>
@@ -38,9 +64,24 @@ const Students = () => {
       {!loading && !error && filteredStudents.length === 0 && (
         <>
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold mb-6 text-center text-primary">
+            <h1 className="text-2xl font-bold  text-center text-primary">
               Students
             </h1>
+            <Button
+              variant="primary"
+              onClick={() =>
+                openModal(
+                  <AddManyStudents
+                    onClose={() => {
+                      closeModal();
+                      refetch();
+                    }}
+                  />
+                )
+              }
+            >
+              Add New Students
+            </Button>
           </div>
           <div className="text-center flex flex-col items-center h-[300px] justify-center space-y-5">
             <img src={images.no_data} alt="" className="w-[300px]" />

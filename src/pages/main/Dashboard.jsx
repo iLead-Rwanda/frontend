@@ -5,7 +5,7 @@ import UserDashboard from "../user/UserDashboard";
 
 const Dashboard = () => {
   const { user } = useUser();
-  return user.role === "Admin" ? <AdminDashboard /> : <UserDashboard />;
+  return user?.role === "Admin" ? <AdminDashboard /> : <UserDashboard />;
 };
 
 export default Dashboard;

@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 
 const Navbar = ({ onSearchClick }) => {
+  const { logout, user } = useUser();
   const icons = [
     {
       icon: "solar:upload-outline",
       className: "icon rotate-90",
-      link: "/login",
+      action: logout,
     },
   ];
-  const { user } = useUser();
 
   return (
     <div className="py-4  w-full flex justify-between items-center px-12 bg-background">
       <div className="font-semibold flex flex-col justify-start items-start">
-        <p>Welcome {user.name} 👋</p>
+        <p>Welcome {user?.name} 👋</p>
         {/* <p className="text-[#686B6E] text-xs">Get all courses down here!</p> */}
       </div>
       <div className="flex justify-center items-center gap-4">
@@ -44,17 +44,16 @@ const Navbar = ({ onSearchClick }) => {
           Loading...
         </div>
         {icons.map((icon, index) => (
-          <Link to={icon.link}>
-            <div
-              key={index}
-              className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
-            >
-              <Icon
-                icon={icon.icon}
-                className={`transition duration-300 ease-in-out ${icon.className}`}
-              />
-            </div>
-          </Link>
+          <div
+            key={index}
+            onClick={icon.action}
+            className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
+          >
+            <Icon
+              icon={icon.icon}
+              className={`transition duration-300 ease-in-out ${icon.className}`}
+            />
+          </div>
         ))}
       </div>
     </div>

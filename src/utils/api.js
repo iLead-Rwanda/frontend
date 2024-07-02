@@ -3,12 +3,12 @@ import axios from "axios";
 const api = process.env.REACT_APP_BACKEND_API;
 
 function getAccessTokenFromLocalStorage() {
-  return localStorage.getItem("access_token");
+  return localStorage.getItem("accessToken");
 }
 
 export const authorizedApi = axios.create({
   baseURL: api,
-  timeout: 30000,
+  timeout: 3000000,
   headers: {
     "Content-Type": "application/json",
   },

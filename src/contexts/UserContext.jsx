@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import { authorizedApi } from "../utils/api";
+import toast from "react-hot-toast";
 
 export const UserContext = createContext(undefined);
 
@@ -13,15 +15,21 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedRefreshToken = localStorage.getItem("refreshToken");
+
+    if (storedUser && storedAccessToken && storedRefreshToken) {
       setUser(JSON.parse(storedUser));
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${storedAccessToken}`;
     }
     setLoading(false);
   }, []);
 
   useEffect(() => {
     if (!loading) {
-      if (!user && location.pathname === "/") {
+      if (!user && location.pathname !== "/auth/login") {
         navigate("/auth/login");
       } else if (user && location.pathname === "/auth/login") {
         navigate("/");
@@ -43,6 +51,38 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const login = async (credentials, callback) => {
+    try {
+      const response = await authorizedApi.post("/auth/login", credentials);
+      const { user, accessToken, refreshToken } = response.data;
+
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+      if (callback) callback();
+      navigate("/");
+    } catch (error) {
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Error while logging in");
+      }
+      console.error("Failed to login:", error);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    delete axios.defaults.headers.common["Authorization"];
+    navigate("/auth/login");
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -52,7 +92,7 @@ const UserProvider = ({ children }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, updateUser }}>
+    <UserContext.Provider value={{ user, setUser, updateUser, login, logout }}>
       {children}
     </UserContext.Provider>
   );

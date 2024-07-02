@@ -37,7 +37,7 @@ const Login = () => {
     return emailRegex.test(email);
   };
 
-  const { setUser } = useUser();
+  const { login } = useUser();
 
   const validatePassword = (password) => {
     const passwordRegex =
@@ -52,23 +52,7 @@ const Login = () => {
       return;
     }
     setLoading(true);
-    try {
-      const response = await unauthorizedApi.post("/auth/login", {
-        email,
-        password,
-      });
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-      setUser(response.data.user);
-      console.log("Login successful:", response.data);
-    } catch (error) {
-      if (error.response.data.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Error while logging in");
-      }
-    }
+    await login({ email, password });
     setLoading(false);
   };
 
