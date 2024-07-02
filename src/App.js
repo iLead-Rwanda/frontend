@@ -1,40 +1,49 @@
 import "./App.css";
-import Register from "./Pages/Register";
-import Login from "./Pages/Login";
+import Login from "./pages/auth/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Dashboard from "./Pages/Dash";
-import Notification from "./Pages/Student";
-import AddStudent from "./Pages/AddStudent";
-import RegisteredStudents from "./Pages/RegisteredStudents";
-import NewStudent from "./Pages/NewStudent";
-import Certificate from "./Pages/Certificate";
-import OneCertifiate from "./Pages/OneCertificate";
-import Analytics from "./Pages/Analytics";
-import Favorites from "./Pages/Favorites";
-import Documents from "./Pages/Certificates";
-import AllStudents from "./Pages/AllStudents";
-import AddNewStudent from "./Pages/AddNewStudent";
+import Notification from "./pages/Student";
+import AddStudent from "./pages/AddStudent";
+// import RegisteredStudents from "./pages/RegisteredStudents";
+import NewStudent from "./pages/NewStudent";
+import Certificate from "./pages/main/Certificate";
+import OneCertifiate from "./pages/OneCertificate";
+import Analytics from "./pages/Analytics";
+import Favorites from "./pages/Favorites";
+import AppLayout from "./components/layout/AppLayout";
+import AuthLayout from "./components/layout/AuthLayout";
+import UserProvider from "./contexts/UserContext";
+import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/main/Dashboard";
+import Students from "./pages/main/Students";
+import ProvinceSchools from "./pages/ProvinceSchools";
+import ModalProvider from "./contexts/ModalContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element={<Register />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dash" element={<Dashboard />} />
-        <Route path="/students/:category" element={<Notification />} />
-        <Route path="/add" element={<AddStudent />} />
-        <Route path="/all" element={<RegisteredStudents />} />
-        <Route path="/new" element={<NewStudent />} />
-        <Route path="/certi" element={<Certificate />} />
-        <Route path="/one" element={<OneCertifiate />} />
-        <Route path="/ana" element={<Analytics />} />
-        <Route path="/fav" element={<Favorites />} />
-        <Route path="/docs" element={<Documents />} />
-        <Route path="/all-students" element={<AllStudents />} />
-        <Route path="/add-new-student" element={<AddNewStudent />} />
-      </Routes>
+      <UserProvider>
+        <ModalProvider>
+          <Routes>
+            <Route path="/" element={<AppLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/students/:category" element={<Notification />} />
+              <Route path="/add" element={<AddStudent />} />
+              <Route path="/province-schools" element={<ProvinceSchools />} />
+              <Route path="/students" element={<Students />} />
+              <Route path="/new" element={<NewStudent />} />
+              <Route path="/certificates" element={<Certificate />} />
+              <Route path="/one" element={<OneCertifiate />} />
+              <Route path="/ana" element={<Analytics />} />
+              <Route path="/fav" element={<Favorites />} />
+            </Route>
+            {/* <Route path="/register" element={<Register />} /> */}
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="/auth/login" element={<Login />} />
+            </Route>
+          </Routes>
+          <Toaster />
+        </ModalProvider>
+      </UserProvider>
     </BrowserRouter>
   );
 }
