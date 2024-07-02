@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import images from "../../utils/images";
+import Button from "../core/Button";
 
-const AStudent = ({ student }) => {
+const AStudent = ({ student, generateCertificate }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerateCertificate = async () => {
+    setLoading(true);
+    await generateCertificate();
+    setLoading(false);
+  };
+
   return (
     <div className="bg-white rounded-2xl p-6 flex flex-col items-center space-y-4">
       <img src={images.bronze} alt="Bronze Medal" className="w-10" />
@@ -18,6 +27,16 @@ const AStudent = ({ student }) => {
       <p className="text-gray-500 text-center text-sm">
         {student.iLeadChapter}
       </p>
+      {generateCertificate && (
+        <Button
+          variant="secondary"
+          loading={loading}
+          onClick={handleGenerateCertificate}
+          className={"text-xs"}
+        >
+          Generate Certificate
+        </Button>
+      )}
     </div>
   );
 };
@@ -30,6 +49,7 @@ AStudent.propTypes = {
     name: PropTypes.string.isRequired,
     iLeadChapter: PropTypes.string.isRequired,
   }).isRequired,
+  generateCertificate: PropTypes.func, // Optional function prop for generating certificate
 };
 
 export default AStudent;

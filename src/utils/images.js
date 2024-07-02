@@ -10,6 +10,9 @@ import profile from "../assets/profile.png";
 import Quote from "../assets/Quote.png";
 import student from "../assets/student.png";
 import bronze from "../assets/bronze.png";
+import signature from "../assets/signature.png";
+import maxwellFoundation from "../assets/maxwellFoundation.png";
+import africaNewLife from "../assets/africaNewLife.svg";
 
 const images = {
   arrowCorner,
@@ -24,6 +27,9 @@ const images = {
   Quote,
   student,
   bronze,
+  signature,
+  maxwellFoundation,
+  africaNewLife,
 };
 
 export default images;

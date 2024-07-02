@@ -49,7 +49,9 @@ const Schools = () => {
             <div className="flex items-center justify-between">
               <div
                 className="text-xs bg-primary text-white rounded-br-2xl rounded-tl-2xl  p-2 cursor-pointer"
-                onClick={() => navigate(`/schools/${school.id}/certificates`)}
+                onClick={() =>
+                  navigate(`/schools/${school.name}/${school.id}/certificates`)
+                }
               >
                 <p>View Certificates</p>
               </div>
@@ -72,7 +74,9 @@ const Schools = () => {
               </div>
               <div
                 className="text-xs bg-primary text-white rounded-br-2xl rounded-tl-2xl p-2 cursor-pointer"
-                onClick={() => navigate(`/schools/${school.id}/students`)}
+                onClick={() =>
+                  navigate(`/schools/${school.name}/${school.id}/students`)
+                }
               >
                 <p>View Students</p>
               </div>

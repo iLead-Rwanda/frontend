@@ -34,7 +34,7 @@ function App() {
               <Route path="/students" element={<Students />} />
               <Route path="/schools" element={<Schools />} />
               <Route
-                path="/schools/:schoolId/:type"
+                path="/schools/:school/:schoolId/:type"
                 element={<SchoolStudentsCertificates />}
               />
               <Route path="/new" element={<NewStudent />} />
