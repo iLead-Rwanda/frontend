@@ -1,34 +1,36 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 const Navbar = ({ onSearchClick }) => {
   const icons = [
-    { icon: "ph:sun-bold", link:"/" },
-    { icon: "solar:share-linear", link:"/" },
-    { icon: "ph:clock", link:"/" },
-    { icon: "system-uicons:write", link:"/" },
-    { icon: "solar:upload-outline", className: "icon rotate-90", link:"/login" },
+    {
+      icon: "solar:upload-outline",
+      className: "icon rotate-90",
+      link: "/login",
+    },
   ];
+  const { user } = useUser();
 
   return (
-    <div className="navbar w-full flex justify-between items-center px-12">
+    <div className="py-4  w-full flex justify-between items-center px-12 bg-background">
       <div className="font-semibold flex flex-col justify-start items-start">
-        <p>Welcome Castella👋</p>
-        <p className="text-[#686B6E] text-xs">Get all courses down here!</p>
+        <p>Welcome {user.name} 👋</p>
+        {/* <p className="text-[#686B6E] text-xs">Get all courses down here!</p> */}
       </div>
-      <div className="flex flex-col justify-between items-center gap-48">
+      <div className="flex justify-center items-center gap-4">
         <div className="flex justify-center items-center gap-2">
           <input
             type="text"
             placeholder="Search from certificates..."
-            className="p-1 border border-1 border-[#e0dfdd] rounded-md"
+            className="px-4 py-1.5 border border-1 border-[#e0dfdd] rounded-2xl outline-none text-sm"
           />
           <div
-            className="p-2 border border-1 border-[#e0dfdd] rounded-md cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
+            className="p-2 border border-1 border-[#e0dfdd] rounded-2xl cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
             onClick={() => {
               document.getElementById("search").style.display = "flex";
-              onSearchClick(); 
+              onSearchClick();
             }}
           >
             <Icon icon="mingcute:search-line" />
@@ -41,13 +43,17 @@ const Navbar = ({ onSearchClick }) => {
         >
           Loading...
         </div>
-      </div>
-      <div className="flex justify-center items-center gap-4">
         {icons.map((icon, index) => (
           <Link to={icon.link}>
-          <div key={index} className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]">
-            <Icon icon={icon.icon} className={`transition duration-300 ease-in-out ${icon.className}`} />
-          </div>
+            <div
+              key={index}
+              className="p-2 border border-1 border-[#e0dfdd] rounded-full cursor-pointer hover:bg-[#B58A5F] hover:text-[#fceac5]"
+            >
+              <Icon
+                icon={icon.icon}
+                className={`transition duration-300 ease-in-out ${icon.className}`}
+              />
+            </div>
           </Link>
         ))}
       </div>

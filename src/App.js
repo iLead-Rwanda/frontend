@@ -44,6 +44,29 @@ function App() {
           <Toaster />
         </ModalProvider>
       </UserProvider>
+      <UserProvider>
+        <ModalProvider>
+          <Routes>
+            <Route path="/" element={<AppLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/students/:category" element={<Notification />} />
+              <Route path="/add" element={<AddStudent />} />
+              <Route path="/province-schools" element={<ProvinceSchools />} />
+              <Route path="/students" element={<Students />} />
+              <Route path="/new" element={<NewStudent />} />
+              <Route path="/certificates" element={<Certificate />} />
+              <Route path="/one" element={<OneCertifiate />} />
+              <Route path="/ana" element={<Analytics />} />
+              <Route path="/fav" element={<Favorites />} />
+            </Route>
+            {/* <Route path="/register" element={<Register />} /> */}
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="/auth/login" element={<Login />} />
+            </Route>
+          </Routes>
+          <Toaster />
+        </ModalProvider>
+      </UserProvider>
     </BrowserRouter>
   );
 }
