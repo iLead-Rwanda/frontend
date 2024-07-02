@@ -39,6 +39,15 @@ const Sidebar = () => {
       roles: ["Admin", "ProvincialAdmin"],
     },
     {
+      icon: "ph:User-fill",
+      text: "Schools",
+      bgColor: "#C211F81A",
+      textColor: "#C211F8",
+      containerBgColor: "#FFFFFF",
+      link: "/schools",
+      roles: ["Admin", "ProvincialAdmin"],
+    },
+    {
       icon: "solar:gallery-bold",
       text: "Certificates",
       bgColor: "#F84E111A",

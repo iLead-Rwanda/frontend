@@ -17,6 +17,8 @@ import Dashboard from "./pages/main/Dashboard";
 import Students from "./pages/main/Students";
 import ProvinceSchools from "./pages/ProvinceSchools";
 import ModalProvider from "./contexts/ModalContext";
+import Schools from "./pages/main/Schools";
+import SchoolStudentsCertificates from "./pages/main/SchoolStudentsCertificates";
 
 function App() {
   return (
@@ -30,6 +32,11 @@ function App() {
               <Route path="/add" element={<AddStudent />} />
               <Route path="/province-schools" element={<ProvinceSchools />} />
               <Route path="/students" element={<Students />} />
+              <Route path="/schools" element={<Schools />} />
+              <Route
+                path="/schools/:schoolId/:type"
+                element={<SchoolStudentsCertificates />}
+              />
               <Route path="/new" element={<NewStudent />} />
               <Route path="/certificates" element={<Certificate />} />
               <Route path="/one" element={<OneCertifiate />} />
