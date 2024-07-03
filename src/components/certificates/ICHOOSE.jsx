@@ -9,13 +9,25 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const ICHOOSE = ({ name, date }) => {
+const Certificate = ({ name, date, type }) => {
   const [pdfImage, setPdfImage] = useState(null);
 
   useEffect(() => {
     const fillFormAndRenderPage = async () => {
       try {
-        const formUrl = "/iChooseCertificate.pdf";
+        // Mapping types to form URLs
+        const formUrls = {
+          IDO: "/iDoCertificate.pdf",
+          ICHOOSE: "/iChooseCertificate.pdf",
+          ILEAD: "/iLeadCertificate.pdf",
+        };
+
+        // Get the correct form URL based on the type prop
+        const formUrl = formUrls[type];
+        if (!formUrl) {
+          throw new Error("Invalid type provided");
+        }
+
         const formPdfBytes = await fetch(formUrl).then((res) =>
           res.arrayBuffer()
         );
@@ -28,7 +40,7 @@ const ICHOOSE = ({ name, date }) => {
         nameField.setText(name);
         dateField.setText(date);
 
-        // Set font for text fields to Poppins
+        // Set font for text fields to Helvetica
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
         nameField.defaultUpdateAppearances(font);
         dateField.defaultUpdateAppearances(font);
@@ -57,14 +69,19 @@ const ICHOOSE = ({ name, date }) => {
     };
 
     fillFormAndRenderPage();
-  }, [name, date]);
+  }, [name, date, type]);
 
-  return <div>{pdfImage && <img src={pdfImage} alt={name} className="rounded-2xl" />}</div>;
+  return (
+    <div>
+      {pdfImage && <img src={pdfImage} alt={name} className="rounded-2xl" />}
+    </div>
+  );
 };
 
-ICHOOSE.propTypes = {
+Certificate.propTypes = {
   name: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["IDO", "ICHOOSE", "ILEAD"]).isRequired,
 };
 
-export default ICHOOSE;
+export default Certificate;
