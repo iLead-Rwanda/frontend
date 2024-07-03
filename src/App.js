@@ -1,13 +1,6 @@
 import "./App.css";
 import Login from "./pages/auth/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Notification from "./pages/Student";
-import AddStudent from "./pages/AddStudent";
-import NewStudent from "./pages/NewStudent";
-import Certificate from "./pages/main/Certificate";
-import OneCertifiate from "./pages/OneCertificate";
-import Analytics from "./pages/Analytics";
-import Favorites from "./pages/Favorites";
 import AppLayout from "./components/layout/AppLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import UserProvider from "./contexts/UserContext";

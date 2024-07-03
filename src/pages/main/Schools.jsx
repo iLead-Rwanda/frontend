@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import useGet from "../../hooks/useGet";
-import { FolderIcon, UploadIcon } from "../../components/core/icons";
+import { FolderIcon } from "../../components/core/icons";
 
 const Schools = () => {
   const [search, setSearch] = useState("");

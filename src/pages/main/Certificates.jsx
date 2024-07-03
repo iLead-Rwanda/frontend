@@ -9,7 +9,7 @@ import { useSearchParams } from "react-router-dom";
 
 const Certificates = () => {
   const [loading, setLoading] = useState(false);
-  const [params, _setParams] = useSearchParams();
+  const [params] = useSearchParams();
   const [filter, setFilter] = useState(
     params.get("chapter") ? params.get("chapter") : "ALL"
   );

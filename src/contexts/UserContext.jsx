@@ -42,33 +42,33 @@ const UserProvider = ({ children }) => {
   };
 
   // Initialize authentication
-  const initializeAuth = async () => {
-    const storedUser = localStorage.getItem("user");
-    const storedAccessToken = localStorage.getItem("accessToken");
-    const tokenTimestamp = localStorage.getItem("tokenTimestamp");
-
-    if (storedUser && storedAccessToken) {
-      if (tokenTimestamp && isTokenExpired(Number(tokenTimestamp))) {
-        const newAccessToken = await refreshAccessToken();
-        if (!newAccessToken) {
-          toast.error("Session expired. Please log in again.");
-          navigate("/auth/login");
-        } else {
-          setUser(JSON.parse(storedUser));
-        }
-      } else {
-        setUser(JSON.parse(storedUser));
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${storedAccessToken}`;
-      }
-    }
-    setLoading(false);
-  };
 
   useEffect(() => {
+    const initializeAuth = async () => {
+      const storedUser = localStorage.getItem("user");
+      const storedAccessToken = localStorage.getItem("accessToken");
+      const tokenTimestamp = localStorage.getItem("tokenTimestamp");
+
+      if (storedUser && storedAccessToken) {
+        if (tokenTimestamp && isTokenExpired(Number(tokenTimestamp))) {
+          const newAccessToken = await refreshAccessToken();
+          if (!newAccessToken) {
+            toast.error("Session expired. Please log in again.");
+            navigate("/auth/login");
+          } else {
+            setUser(JSON.parse(storedUser));
+          }
+        } else {
+          setUser(JSON.parse(storedUser));
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${storedAccessToken}`;
+        }
+      }
+      setLoading(false);
+    };
     initializeAuth();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (!loading) {

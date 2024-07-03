@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import images from "../../utils/images";
 import { useUser } from "../../contexts/UserContext";
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 
 const Navbar = ({ onSearchClick }) => {
