@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import useGet from "../../hooks/useGet";
 import AStudent from "../../components/students/AStudent";
-import ICHOOSE from "../../components/certificates/ICHOOSE";
+import ICHOOSE from "../../components/certificates/Certificate";
 import Button from "../../components/core/Button";
 import {
+  downloadCertificatesForSchool,
   generateSchoolCertificates,
   generateStudentCertificates,
 } from "../../utils/funcs/certificates";
@@ -68,7 +69,25 @@ const SchoolStudentsCertificates = () => {
               Generate All Certificates{" "}
             </Button>
           ) : (
-            <Button variant="primary" className={"text-xs"}>
+            <Button
+              variant="primary"
+              className={"text-xs"}
+              loading={loading}
+              disabled={
+                !studentsOrCertificates ||
+                !filteredData ||
+                filteredData.length === 0 ||
+                studentsOrCertificates.length === 0
+              }
+              onClick={async () => {
+                const certificates = filteredData.map((certificate) => ({
+                  name: certificate.student.name,
+                  date: certificate.generatedAt,
+                  iLeadChapter: certificate.student.iLeadChapter,
+                }));
+                await downloadCertificatesForSchool(certificates);
+              }}
+            >
               Download All Certificates{" "}
             </Button>
           )}
@@ -86,7 +105,7 @@ const SchoolStudentsCertificates = () => {
             </p>
           )}
           <Pagination
-            itemsPerPage={20}
+            itemsPerPage={12}
             totalItems={filteredData?.length}
             columns={4}
           >

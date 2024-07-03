@@ -10,7 +10,7 @@ const Button = ({
   disabled = false,
   loading = false,
 }) => {
-  const baseStyles = "px-4 py-2.5 rounded-2xl focus:outline-none";
+  const baseStyles = "px-4 py-2.5 rounded-2xl focus:outline-none disabled:opacity-50 ";
   let variantStyles = "";
 
   if (variant === "primary") {
@@ -26,7 +26,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`${baseStyles} ${variantStyles} ${className}`}
+      className={`${baseStyles} ${variantStyles} ${className} !disabled:cursor-not-allowed`}
       onClick={onClick}
       disabled={disabled || loading}
     >

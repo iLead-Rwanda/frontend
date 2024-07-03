@@ -1,62 +1,100 @@
-import React from "react";
-import imgPlaceholder from "../../Assets/img-placeholder.svg";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { PDFDocument, StandardFonts } from "pdf-lib";
+import * as Pdfjs from "pdfjs-dist";
+import Button from "../core/Button";
+import { DownloadIcon } from "../core/icons";
+import { downloadCertificateForStudent } from "../../utils/funcs/certificates";
 
-const Certificate = () => {
+Pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
+
+const Certificate = ({ name, date, type }) => {
+  const [pdfImage, setPdfImage] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fillFormAndRenderPage = async () => {
+      try {
+        const formUrls = {
+          IDO: "/iDoCertificate.pdf",
+          ICHOOSE: "/iChooseCertificate.pdf",
+          ILEAD: "/iLeadCertificate.pdf",
+        };
+        const formUrl = formUrls[type];
+        if (!formUrl) {
+          throw new Error("Invalid type provided");
+        }
+
+        const formPdfBytes = await fetch(formUrl).then((res) =>
+          res.arrayBuffer()
+        );
+        const pdfDoc = await PDFDocument.load(formPdfBytes);
+        const form = pdfDoc.getForm();
+        const nameField = form.getTextField("name");
+        const dateField = form.getTextField("date");
+        nameField.setText(name);
+        dateField.setText(date);
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        nameField.defaultUpdateAppearances(font);
+        dateField.defaultUpdateAppearances(font);
+        const newPdfBytes = await pdfDoc.save();
+        const pdf = await Pdfjs.getDocument({ data: newPdfBytes }).promise;
+        const page = await pdf.getPage(1);
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport,
+        };
+        await page.render(renderContext).promise;
+        setPdfImage(canvas.toDataURL());
+      } catch (error) {
+        console.error("Failed to fill PDF form:", error);
+      }
+    };
+
+    fillFormAndRenderPage();
+  }, [name, date, type]);
+
   return (
     <div
-      className={`w-[345px] h-[200px] p-[5px] bg-[#D8C5AE] rounded-[10px] flex flex-col`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative"
     >
-      <div className={`w-[100%] h-[100%] bg-[#fff] flex flex-col`}>
-        <div className={`w-[100%] flex items-center`}>
-          <div
-            className={`h-[40px] w-[46%] bg-[#D8C5AE] card-top flex justify-center items-center`}
+      {pdfImage && <img src={pdfImage} alt={name} className="rounded-2xl" />}
+      {isHovered && (
+        <div className="absolute bottom-0 right-0 p-2">
+          <Button
+            variant="primary"
+            loading={loading}
+            onClick={async () => {
+              setLoading(true);
+              await downloadCertificateForStudent(name, date, type);
+              setLoading(false);
+            }}
           >
-            <p className={`text-[#000] font-bold text-[12px] text-center`}>
-              View <span className="block">students</span>
-            </p>
-          </div>
-
-          <p
-            className={`text-[#ABB4BA] w-[54%] text-[10px] font-bold text-center`}
-          >
-            1,734,430 Files
-          </p>
+            <div className="text-white">
+              <DownloadIcon />
+            </div>
+          </Button>
         </div>
-
-        <div
-          className={`flex bg-[#fff] flex-col mt-[8px] px-[3%] items-start gap-[10px] justify-center w-[100%] h-[100%]`}
-        >
-          <p className={`text-[#ABB4BA] text-[11px]`}>School:</p>
-
-          <div className={`w-[100%] flex items-center justify-between`}>
-            <p className={`font-bold text-[15px] text-[#000]`}>
-              Rwanda Coding <span className="block">Academy</span>
-            </p>
-            <img
-              src={imgPlaceholder}
-              alt="placeholder"
-              className={`w-[48px] h-[48px]`}
-            />
-          </div>
-        </div>
-
-        <div className={`w-[100%] flex items-center`}>
-          <p
-            className={`text-[#ABB4BA] w-[64%] text-[10px] font-bold text-center`}
-          >
-            iChoose
-          </p>
-          <div
-            className={`h-[40px] w-[36%] bg-[#D8C5AE] card-bottom flex justify-center items-center`}
-          >
-            <p className={`text-[#062D47] font-bold text-[12px] text-center`}>
-              View <span className="block">certificates</span>
-            </p>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
+};
+
+Certificate.propTypes = {
+  name: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["IDO", "ICHOOSE", "ILEAD"]).isRequired,
 };
 
 export default Certificate;

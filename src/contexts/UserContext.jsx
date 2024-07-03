@@ -15,7 +15,7 @@ const UserProvider = ({ children }) => {
 
   const isTokenExpired = (timestamp) => {
     const now = Date.now();
-    const twentyFourHours = 24 * 60 * 60 * 1000; 
+    const twentyFourHours = 24 * 60 * 60 * 1000;
     return now - timestamp > twentyFourHours;
   };
 
@@ -95,7 +95,6 @@ const UserProvider = ({ children }) => {
   };
 
   const login = async (credentials, callback) => {
-    setLoading(true);
     try {
       const response = await authorizedApi.post("/auth/login", credentials);
       const { user, accessToken, refreshToken } = response.data;
@@ -116,8 +115,6 @@ const UserProvider = ({ children }) => {
         toast.error("Error while logging in");
       }
       console.error("Failed to login:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
