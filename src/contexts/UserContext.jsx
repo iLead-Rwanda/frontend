@@ -13,18 +13,61 @@ const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
+  const isTokenExpired = (timestamp) => {
+    const now = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000; 
+    return now - timestamp > twentyFourHours;
+  };
+
+  const refreshAccessToken = async () => {
+    setLoading(true);
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      const response = await authorizedApi.post("/auth/refresh-token", {
+        token: refreshToken,
+      });
+      const { accessToken } = response.data;
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("tokenTimestamp", Date.now());
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+      setLoading(false);
+      return accessToken;
+    } catch (error) {
+      console.error("Failed to refresh access token:", error);
+      setLoading(false);
+      return null;
+    }
+  };
+
+  // Initialize authentication
+  const initializeAuth = async () => {
     const storedUser = localStorage.getItem("user");
     const storedAccessToken = localStorage.getItem("accessToken");
-    const storedRefreshToken = localStorage.getItem("refreshToken");
+    const tokenTimestamp = localStorage.getItem("tokenTimestamp");
 
-    if (storedUser && storedAccessToken && storedRefreshToken) {
-      setUser(JSON.parse(storedUser));
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${storedAccessToken}`;
+    if (storedUser && storedAccessToken) {
+      if (tokenTimestamp && isTokenExpired(Number(tokenTimestamp))) {
+        const newAccessToken = await refreshAccessToken();
+        if (!newAccessToken) {
+          toast.error("Session expired. Please log in again.");
+          navigate("/auth/login");
+        } else {
+          setUser(JSON.parse(storedUser));
+        }
+      } else {
+        setUser(JSON.parse(storedUser));
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${storedAccessToken}`;
+      }
     }
     setLoading(false);
+  };
+
+  useEffect(() => {
+    initializeAuth();
   }, []);
 
   useEffect(() => {
@@ -52,6 +95,7 @@ const UserProvider = ({ children }) => {
   };
 
   const login = async (credentials, callback) => {
+    setLoading(true);
     try {
       const response = await authorizedApi.post("/auth/login", credentials);
       const { user, accessToken, refreshToken } = response.data;
@@ -60,17 +104,20 @@ const UserProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("tokenTimestamp", Date.now());
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
       if (callback) callback();
       navigate("/");
     } catch (error) {
-      if (error.response.data.message) {
+      if (error.response?.data?.message) {
         toast.error(error.response.data.message);
       } else {
         toast.error("Error while logging in");
       }
       console.error("Failed to login:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,6 +126,7 @@ const UserProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenTimestamp");
     delete axios.defaults.headers.common["Authorization"];
     navigate("/auth/login");
   };

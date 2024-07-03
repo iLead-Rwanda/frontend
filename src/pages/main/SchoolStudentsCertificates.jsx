@@ -82,13 +82,7 @@ const SchoolStudentsCertificates = () => {
             </p>
           )}
 
-          <div
-            className={
-              type === "students"
-                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-4"
-                : "space-y-4"
-            }
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-4">
             {filteredData?.map((item) =>
               type === "students" ? (
                 <AStudent
@@ -99,7 +93,11 @@ const SchoolStudentsCertificates = () => {
                   }
                 />
               ) : (
-                <ICHOOSE key={item.id} name={item.student.name} />
+                <ICHOOSE
+                  key={item.id}
+                  name={item.student.name}
+                  date={new Date(item.generatedAt).getDay().toString()}
+                />
               )
             )}
           </div>
