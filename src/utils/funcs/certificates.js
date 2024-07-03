@@ -26,7 +26,19 @@ export const generateStudentCertificates = async (studentId, callback) => {
     toast.success("Certificate generated successfully!");
     if (callback) callback();
   } catch (error) {
-    toast.error("Failed to generate certificate.");
+    if (
+      error.response.data.message ||
+      error.response.data.error ||
+      error.response.data.msg
+    ) {
+      toast.error(
+        error.response.data.message ||
+          error.response.data.error ||
+          error.response.data.msg
+      );
+    } else {
+      toast.error("Failed to generate certificate.");
+    }
     console.error(error);
   }
 };
