@@ -18,7 +18,7 @@ const AStudent = ({ student, generateCertificate }) => {
       <p className="text-2xl text-gray-500">{student.level}</p>
       <img
         src={
-          student.gender === "male" ? "/images/male.png" : "/images/female.png"
+          "https://i.pinimg.com/564x/c2/7e/b7/c27eb77c278f37d9a204bff5a661b83b.jpg"
         }
         alt="Student"
         className="w-20 h-20 rounded-full mx-auto mb-4"

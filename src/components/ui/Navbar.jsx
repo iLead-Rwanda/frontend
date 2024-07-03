@@ -20,7 +20,7 @@ const Navbar = ({ onSearchClick }) => {
         {/* <p className="text-[#686B6E] text-xs">Get all courses down here!</p> */}
       </div>
       <div className="flex justify-center items-center gap-4">
-        <div className="flex justify-center items-center gap-2">
+        {/* <div className="flex justify-center items-center gap-2">
           <input
             type="text"
             placeholder="Search from certificates..."
@@ -42,7 +42,7 @@ const Navbar = ({ onSearchClick }) => {
           style={{ display: "none" }}
         >
           Loading...
-        </div>
+        </div> */}
         {icons.map((icon, index) => (
           <div
             key={index}

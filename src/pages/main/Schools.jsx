@@ -26,7 +26,7 @@ const Schools = () => {
 
   return (
     <div className="">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-5">
         <h1 className="text-3xl font-bold text-primary">Schools</h1>
         <input
           type="text"

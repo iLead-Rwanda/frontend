@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 
 const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Calculate total number of pages
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  // Handle click on page number
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -45,9 +41,7 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
   // Generate page numbers
   const getPageNumbers = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 5; // Adjust this value to show more or fewer pages
-
-    // Calculate the start and end page numbers
+    const maxPagesToShow = 3;
     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     let endPage = startPage + maxPagesToShow - 1;
 
@@ -66,11 +60,11 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
   return (
     <div className="flex flex-col items-center mt-4">
       <div className={`grid grid-cols-${columns} gap-6`}>{paginatedItems}</div>
-      <div className="flex mt-4">
+      <div className="flex mt-5">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-3 py-1 mr-2 bg-gray-200 rounded-md"
+          className="px-3 py-1 mr-2 bg-gray-200 rounded-2xl text-sm"
         >
           Previous
         </button>
@@ -78,8 +72,8 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
           <button
             key={page}
             onClick={() => handlePageClick(page)}
-            className={`px-3 py-1 mx-1 rounded-md ${
-              currentPage === page ? "bg-blue-500 text-white" : "bg-gray-200"
+            className={`px-3 py-1 mx-1 rounded-2xl text-xs ${
+              currentPage === page ? "bg-primary text-white " : "bg-gray-200"
             }`}
           >
             {page}
@@ -88,14 +82,16 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-3 py-1 ml-2 bg-gray-200 rounded-md"
+          className="px-3 py-1 ml-2 bg-gray-200 rounded-2xl text-sm"
         >
           Next
         </button>
       </div>
-      <div className="mt-2">
-        Showing items {startIndex + 1} to {endIndex} of {totalItems}
-      </div>
+      {totalItems && (
+        <div className="mt-2 text-xs text-gray-700">
+          Showing items {startIndex + 1} to {endIndex} of {totalItems}
+        </div>
+      )}
     </div>
   );
 };

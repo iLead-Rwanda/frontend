@@ -18,6 +18,7 @@ import ProvinceSchools from "./pages/ProvinceSchools";
 import ModalProvider from "./contexts/ModalContext";
 import Schools from "./pages/main/Schools";
 import SchoolStudentsCertificates from "./pages/main/SchoolStudentsCertificates";
+import Certificates from "./pages/main/Certificates";
 
 function App() {
   return (
@@ -27,8 +28,8 @@ function App() {
           <Routes>
             <Route path="/" element={<AppLayout />}>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/students/:category" element={<Notification />} />
-              <Route path="/add" element={<AddStudent />} />
+              {/* <Route path="/students/:category" element={<Notification />} />
+              <Route path="/add" element={<AddStudent />} /> */}
               <Route path="/province-schools" element={<ProvinceSchools />} />
               <Route path="/students" element={<Students />} />
               <Route path="/schools" element={<Schools />} />
@@ -36,11 +37,11 @@ function App() {
                 path="/schools/:school/:schoolId/:type"
                 element={<SchoolStudentsCertificates />}
               />
-              <Route path="/new" element={<NewStudent />} />
-              <Route path="/certificates" element={<Certificate />} />
-              <Route path="/one" element={<OneCertifiate />} />
+              {/* <Route path="/new" element={<NewStudent />} /> */}
+              <Route path="/certificates" element={<Certificates />} />
+              {/* <Route path="/one" element={<OneCertifiate />} />
               <Route path="/ana" element={<Analytics />} />
-              <Route path="/fav" element={<Favorites />} />
+              <Route path="/fav" element={<Favorites />} /> */}
             </Route>
             {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/auth" element={<AuthLayout />}>

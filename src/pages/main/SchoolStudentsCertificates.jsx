@@ -10,6 +10,8 @@ import {
   generateStudentCertificates,
 } from "../../utils/funcs/certificates";
 import Pagination from "../../components/core/Pagination";
+import { useModal } from "../../contexts/ModalContext";
+import AddManyStudents from "../../components/students/AddManyStudents";
 
 const SchoolStudentsCertificates = () => {
   const { school, schoolId, type } = useParams();
@@ -19,6 +21,7 @@ const SchoolStudentsCertificates = () => {
     data: studentsOrCertificates,
     loading: studentsLoading,
     error,
+    refetch,
   } = useGet(
     `/${type === "students" ? "students" : "certificates"}/${schoolId}`
   );
@@ -35,6 +38,8 @@ const SchoolStudentsCertificates = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  const { openModal, closeModal } = useModal();
 
   return (
     <div className="">
@@ -56,18 +61,38 @@ const SchoolStudentsCertificates = () => {
             onChange={handleSearchChange}
           />
           {type === "students" ? (
-            <Button
-              variant="primary"
-              className={"text-xs"}
-              loading={loading}
-              onClick={async () => {
-                setLoading(true);
-                await generateSchoolCertificates(schoolId);
-                setLoading(false);
-              }}
-            >
-              Generate All Certificates{" "}
-            </Button>
+            <>
+              <Button
+                variant="secondary"
+                className={"text-xs"}
+                loading={loading}
+                onClick={async () => {
+                  openModal(
+                    <AddManyStudents
+                      schoolId={schoolId}
+                      onClose={() => {
+                        closeModal();
+                        refetch();
+                      }}
+                    />
+                  );
+                }}
+              >
+                Add student
+              </Button>
+              <Button
+                variant="primary"
+                className={"text-xs"}
+                loading={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  await generateSchoolCertificates(schoolId);
+                  setLoading(false);
+                }}
+              >
+                Generate All Certificates{" "}
+              </Button>
+            </>
           ) : (
             <Button
               variant="primary"
@@ -82,7 +107,7 @@ const SchoolStudentsCertificates = () => {
               onClick={async () => {
                 const certificates = filteredData.map((certificate) => ({
                   name: certificate.student.name,
-                  date: certificate.generatedAt,
+                  date: new Date(certificate.generatedAt).getDay().toString(),
                   iLeadChapter: certificate.student.iLeadChapter,
                 }));
                 await downloadCertificatesForSchool(certificates);

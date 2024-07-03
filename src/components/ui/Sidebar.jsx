@@ -30,7 +30,7 @@ const Sidebar = () => {
       roles: ["Admin"],
     },
     {
-      icon: "ph:User-fill",
+      icon: "lucide:users",
       text: "Students",
       bgColor: "#C211F81A",
       textColor: "#C211F8",
@@ -39,7 +39,7 @@ const Sidebar = () => {
       roles: ["Admin", "ProvincialAdmin"],
     },
     {
-      icon: "ph:User-fill",
+      icon: "ic:baseline-school",
       text: "Schools",
       bgColor: "#C211F81A",
       textColor: "#C211F8",
@@ -60,7 +60,7 @@ const Sidebar = () => {
 
   return (
     <div className="min-w-[20%] w-[20%] flex flex-col justify-start items-center gap-6 bg-[#D8C5AE] h-screen">
-      <img src={images.ilead} alt="" className="w-full h-16" />
+      <img src={images.ilead} alt="" className="w-full h-20" />
       <div className="w-full flex flex-col justify-between h-full items-center">
         <div className="space-y-2 w-full px-5">
           {sidebarItems
@@ -71,7 +71,7 @@ const Sidebar = () => {
                 className={`w-full flex cursor-pointer rounded-2xl px-4 py-2 ${
                   location.pathname === item.link
                     ? "bg-[#B58A5F]"
-                    : "bg-[#F84E111A]"
+                    : "bg-white"
                 }`}
                 onClick={() => navigate(item.link)}
               >
@@ -83,7 +83,7 @@ const Sidebar = () => {
                     }}
                     className={`p-1 rounded-md flex items-center justify-center text-[${item.textColor}] focus:bg-[#B58A5F]`}
                   >
-                    <Icon icon={item.icon} style={{ fontSize: "10px" }} />
+                    <Icon icon={item.icon} style={{ fontSize: "20px" }} />
                   </div>
                   <p className="text-[#0A0F1F] font-bold text-xs">
                     {item.text}
