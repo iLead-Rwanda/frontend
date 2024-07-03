@@ -15,14 +15,11 @@ const Certificate = ({ name, date, type }) => {
   useEffect(() => {
     const fillFormAndRenderPage = async () => {
       try {
-        // Mapping types to form URLs
         const formUrls = {
           IDO: "/iDoCertificate.pdf",
           ICHOOSE: "/iChooseCertificate.pdf",
           ILEAD: "/iLeadCertificate.pdf",
         };
-
-        // Get the correct form URL based on the type prop
         const formUrl = formUrls[type];
         if (!formUrl) {
           throw new Error("Invalid type provided");

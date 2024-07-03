@@ -96,6 +96,7 @@ const SchoolStudentsCertificates = () => {
                 <ICHOOSE
                   key={item.id}
                   name={item.student.name}
+                  type={item.student.iLeadChapter}
                   date={new Date(item.generatedAt).getDay().toString()}
                 />
               )
