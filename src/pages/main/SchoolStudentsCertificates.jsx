@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useGet from "../../hooks/useGet";
 import AStudent from "../../components/students/AStudent";
 import ICHOOSE from "../../components/certificates/ICHOOSE";
@@ -8,6 +8,7 @@ import {
   generateSchoolCertificates,
   generateStudentCertificates,
 } from "../../utils/funcs/certificates";
+import Pagination from "../../components/core/Pagination";
 
 const SchoolStudentsCertificates = () => {
   const { school, schoolId, type } = useParams();
@@ -38,7 +39,10 @@ const SchoolStudentsCertificates = () => {
     <div className="">
       <div className="flex items-center justify-between mb-2">
         <p className="text-xl font-bold text-primary">
-          {type === "students" ? "Students" : "Certificates"} of {school}
+          <Link to={`/schools`}>{school}</Link> /{" "}
+          <span className="text-gray-700">
+            {type === "students" ? "Students" : "Certificates"}
+          </span>
         </p>
         <div className="flex items-center gap-2">
           <input
@@ -76,13 +80,16 @@ const SchoolStudentsCertificates = () => {
 
       {!loading && !error && (
         <>
-          {filteredData && filteredData.length === 0 && (
+          {filteredData && filteredData?.length === 0 && (
             <p className="text-gray-500">
               No {type} found matching your search.
             </p>
           )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-4">
+          <Pagination
+            itemsPerPage={20}
+            totalItems={filteredData?.length}
+            columns={4}
+          >
             {filteredData?.map((item) =>
               type === "students" ? (
                 <AStudent
@@ -101,7 +108,7 @@ const SchoolStudentsCertificates = () => {
                 />
               )
             )}
-          </div>
+          </Pagination>
         </>
       )}
     </div>
