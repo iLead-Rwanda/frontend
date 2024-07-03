@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { authorizedApi } from "../utils/api";
+import { authorizedApi, unauthorizedApi } from "../utils/api";
 import toast from "react-hot-toast";
 
 export const UserContext = createContext(undefined);
@@ -96,7 +96,7 @@ const UserProvider = ({ children }) => {
 
   const login = async (credentials, callback) => {
     try {
-      const response = await authorizedApi.post("/auth/login", credentials);
+      const response = await unauthorizedApi.post("/auth/login", credentials);
       const { user, accessToken, refreshToken } = response.data;
 
       setUser(user);
