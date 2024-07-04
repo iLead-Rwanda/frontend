@@ -105,12 +105,14 @@ const SchoolStudentsCertificates = () => {
                 studentsOrCertificates.length === 0
               }
               onClick={async () => {
+                setLoading(true);
                 const certificates = filteredData.map((certificate) => ({
                   name: certificate.student.name,
                   date: new Date(certificate.generatedAt).getDay().toString(),
                   iLeadChapter: certificate.student.iLeadChapter,
                 }));
                 await downloadCertificatesForSchool(certificates);
+                setLoading(false);
               }}
             >
               Download All Certificates{" "}
