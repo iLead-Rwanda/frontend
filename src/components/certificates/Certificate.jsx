@@ -8,7 +8,7 @@ import { downloadCertificateForStudent } from "../../utils/funcs/certificates";
 
 Pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
+  process.env.REACT_APP_PDF_WORKER
 ).toString();
 
 const Certificate = ({ name, date, type }) => {
