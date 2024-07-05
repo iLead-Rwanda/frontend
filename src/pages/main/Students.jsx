@@ -93,15 +93,6 @@ const Students = () => {
         </div>
       )}
 
-      {!loading && !error && filteredStudents.length === 0 && (
-        <>
-          <div className="text-center flex flex-col items-center h-[300px] justify-center space-y-5">
-            <img src={images.no_data} alt="" className="w-[300px]" />
-            <p>No students found.</p>
-          </div>
-        </>
-      )}
-
       {!loading && !error && (
         <>
           <div className="flex items-center justify-end gap-2">

@@ -19,7 +19,7 @@ const Certificates = () => {
     data: certificates,
     loading: certificatesLoading,
     error,
-  } = useGet(`/certificates`);
+  } = useGet(`/certificates/my-province`);
 
   useEffect(() => {
     const filtering = () => {
