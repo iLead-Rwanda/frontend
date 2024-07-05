@@ -12,6 +12,7 @@ const Certificate = ({ name, date, type }) => {
   const [pdfImage, setPdfImage] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(true); // State for loading skeleton
 
   useEffect(() => {
     const fillFormAndRenderPage = async () => {
@@ -76,6 +77,8 @@ const Certificate = ({ name, date, type }) => {
         setPdfImage(canvas.toDataURL());
       } catch (error) {
         console.error("Failed to fill PDF form:", error);
+      } finally {
+        setIsGenerating(false); // Stop showing the loading skeleton
       }
     };
 
@@ -83,27 +86,33 @@ const Certificate = ({ name, date, type }) => {
   }, [name, date, type]);
 
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative"
-    >
-      {pdfImage && <img src={pdfImage} alt={name} className="rounded-2xl" />}
-      {isHovered && (
-        <div className="absolute bottom-0 right-0 p-2">
-          <Button
-            variant="primary"
-            loading={loading}
-            onClick={async () => {
-              setLoading(true);
-              await downloadCertificateForStudent(name, date, type);
-              setLoading(false);
-            }}
-          >
-            <div className="text-white">
-              <DownloadIcon />
+    <div className="w-full">
+      {isGenerating && !pdfImage ? (
+        <div className=" animate-pulse bg-gray-200  rounded-2xl  h-60 w-full"></div>
+      ) : (
+        <div
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="relative"
+        >
+          <img src={pdfImage} alt={name} className="rounded-2xl" />
+          {isHovered && (
+            <div className="absolute bottom-0 right-0 p-2">
+              <Button
+                variant="primary"
+                loading={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  await downloadCertificateForStudent(name, date, type);
+                  setLoading(false);
+                }}
+              >
+                <div className="text-white">
+                  <DownloadIcon />
+                </div>
+              </Button>
             </div>
-          </Button>
+          )}
         </div>
       )}
     </div>

@@ -50,13 +50,21 @@ export const downloadCertificateForStudent = async (
   callback
 ) => {
   try {
+    const formUrls = {
+      IDO: "/iDoCertificate.pdf",
+      ICHOOSE: "/iChooseCertificate.pdf",
+      ILEAD: "/iLeadCertificate.pdf",
+    };
+
     const formUrl = formUrls[level];
     if (!formUrl) {
       throw new Error("Invalid level provided");
     }
+
     const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(formPdfBytes);
     const form = pdfDoc.getForm();
+
     let name1 = name;
     let name2 = "";
     if (name.length > 20) {
@@ -69,6 +77,7 @@ export const downloadCertificateForStudent = async (
         name1 = name1.slice(0, name1Index);
       }
     }
+
     const nameField1 = form.getTextField("name1");
     const nameField2 = form.getTextField("name2");
     const dateField = form.getTextField("date");
@@ -79,6 +88,7 @@ export const downloadCertificateForStudent = async (
     nameField1.defaultUpdateAppearances(font);
     nameField2.defaultUpdateAppearances(font);
     dateField.defaultUpdateAppearances(font);
+    form.flatten();
     const newPdfBytes = await pdfDoc.save();
     const blob = new Blob([newPdfBytes], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
@@ -126,7 +136,6 @@ export const downloadCertificatesForSchool = async (
       );
       const pdfDoc = await PDFDocument.load(formPdfBytes);
       const form = pdfDoc.getForm();
-
       let name1 = name;
       let name2 = "";
       if (name.length > 20) {
@@ -146,12 +155,11 @@ export const downloadCertificatesForSchool = async (
       nameField1.setText(name1);
       nameField2.setText(name2);
       dateField.setText(date);
-
       const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
       nameField1.defaultUpdateAppearances(font);
       nameField2.defaultUpdateAppearances(font);
       dateField.defaultUpdateAppearances(font);
-
+      form.flatten();
       const newPdfBytes = await pdfDoc.save();
       pdfBlobs[iLeadChapter].push({
         name: `${name}_${iLeadChapter}_Certificate.pdf`,
@@ -183,10 +191,7 @@ export const downloadCertificatesForSchool = async (
   }
 };
 
-export const downloadManyCertificates= async (
-  students,
-  callback
-) => {
+export const downloadManyCertificates = async (students, callback) => {
   try {
     const zip = new JSZip();
     const pdfBlobs = {
@@ -194,7 +199,7 @@ export const downloadManyCertificates= async (
       ICHOOSE: [],
       ILEAD: [],
     };
-    
+
     for (const student of students) {
       const { name, date, iLeadChapter } = student;
       const formUrls = {
@@ -206,7 +211,9 @@ export const downloadManyCertificates= async (
       if (!formUrl) {
         throw new Error("Invalid level provided");
       }
-      const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+      const formPdfBytes = await fetch(formUrl).then((res) =>
+        res.arrayBuffer()
+      );
       const pdfDoc = await PDFDocument.load(formPdfBytes);
       const form = pdfDoc.getForm();
 
@@ -222,19 +229,17 @@ export const downloadManyCertificates= async (
           name1 = name1.slice(0, name1Index);
         }
       }
-
       const nameField1 = form.getTextField("name1");
       const nameField2 = form.getTextField("name2");
       const dateField = form.getTextField("date");
       nameField1.setText(name1);
       nameField2.setText(name2);
       dateField.setText(date);
-
       const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
       nameField1.defaultUpdateAppearances(font);
       nameField2.defaultUpdateAppearances(font);
       dateField.defaultUpdateAppearances(font);
-
+      form.flatten();
       const newPdfBytes = await pdfDoc.save();
       pdfBlobs[iLeadChapter].push({
         name: `${name}_${iLeadChapter}_Certificate.pdf`,
@@ -267,4 +272,3 @@ export const downloadManyCertificates= async (
     console.error(error);
   }
 };
-
