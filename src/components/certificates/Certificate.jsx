@@ -6,10 +6,7 @@ import Button from "../core/Button";
 import { DownloadIcon } from "../core/icons";
 import { downloadCertificateForStudent } from "../../utils/funcs/certificates";
 
-Pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js"
-).toString();
+Pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${Pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const Certificate = ({ name, date, type }) => {
   const [pdfImage, setPdfImage] = useState(null);
@@ -34,13 +31,35 @@ const Certificate = ({ name, date, type }) => {
         );
         const pdfDoc = await PDFDocument.load(formPdfBytes);
         const form = pdfDoc.getForm();
-        const nameField = form.getTextField("name");
+
+        let name1 = name;
+        let name2 = "";
+
+        if (name.length > 20) {
+          let index = name.slice(0, 30).lastIndexOf(" ");
+          name1 = name.slice(0, index);
+          name2 = name.slice(index + 1);
+
+          if (name1.length > 20) {
+            const name1Index = name1.slice(0, 20).lastIndexOf(" ");
+            name2 = name1.slice(name1Index + 1) + " " + name2;
+            name1 = name1.slice(0, name1Index);
+          }
+        }
+
+        const nameField1 = form.getTextField("name1");
+        const nameField2 = form.getTextField("name2");
         const dateField = form.getTextField("date");
-        nameField.setText(name);
+
+        nameField1.setText(name1);
+        nameField2.setText(name2);
         dateField.setText(date);
-        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-        nameField.defaultUpdateAppearances(font);
+
+        const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
+        nameField1.defaultUpdateAppearances(font);
+        nameField2.defaultUpdateAppearances(font);
         dateField.defaultUpdateAppearances(font);
+
         const newPdfBytes = await pdfDoc.save();
         const pdf = await Pdfjs.getDocument({ data: newPdfBytes }).promise;
         const page = await pdf.getPage(1);
