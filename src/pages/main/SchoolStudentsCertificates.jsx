@@ -111,7 +111,7 @@ const SchoolStudentsCertificates = () => {
                   date: new Date(certificate.generatedAt).getDay().toString(),
                   iLeadChapter: certificate.student.iLeadChapter,
                 }));
-                await downloadCertificatesForSchool(certificates);
+                await downloadCertificatesForSchool(certificates, school);
                 setLoading(false);
               }}
             >
