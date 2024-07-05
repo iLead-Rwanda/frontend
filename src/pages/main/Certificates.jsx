@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useGet from "../../hooks/useGet";
 import Certificate from "../../components/certificates/Certificate";
 import Button from "../../components/core/Button";
-import {  downloadManyCertificates } from "../../utils/funcs/certificates";
+import { downloadManyCertificates } from "../../utils/funcs/certificates";
 import Pagination from "../../components/core/Pagination";
 import images from "../../utils/images";
 import { useSearchParams } from "react-router-dom";
@@ -44,7 +44,7 @@ const Certificates = () => {
       <div className="flex items-center justify-between mb-2">
         <p className="text-xl font-bold text-primary">All Certificates</p>
         <div className="flex items-center gap-2">
-        <input
+          <input
             type="text"
             placeholder={`Search Certificates`}
             className="px-4 py-1.5 rounded-2xl  text-sm border-primary border outline-none "
@@ -65,7 +65,7 @@ const Certificates = () => {
               setLoading(true);
               const certificates = filteredData.map((certificate) => ({
                 name: certificate.student.name,
-                date: certificate.generatedAt,
+                date: new Date(certificate.generatedAt).getDay().toString(),
                 iLeadChapter: certificate.student.iLeadChapter,
               }));
               await downloadManyCertificates(certificates);
