@@ -36,12 +36,12 @@ const ExcelFileInput = ({ onFileSelect }) => {
   };
 
   const extractData = (data) => {
+    console.log(data)
     return data
-      .filter((row) => row.length >= 4 && typeof row[0] === "number")
-      .map(([number, surname, firstName, chapter, gender]) => ({
+      .filter((row) => row.length >= 3 && typeof row[0] === "number")
+      .map(([number, name, chapter, gender]) => ({
         number,
-        surname,
-        firstName,
+        name,
         chapter,
         gender: gender || null,
       }));
@@ -85,10 +85,7 @@ const ExcelFileInput = ({ onFileSelect }) => {
                                   Number
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                  Surname
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                  First Name
+                                  Name
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                   Chapter
@@ -110,10 +107,7 @@ const ExcelFileInput = ({ onFileSelect }) => {
                                       {student.number}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                      {student.surname}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                      {student.firstName}
+                                      {student.name}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                       {student.chapter}

@@ -63,7 +63,7 @@ const AddStudents = ({ onClose, schoolId }) => {
     const formattedData = Object.values(
       Object.keys(fileData).map((sheet) => {
         return fileData[sheet].map((student) => ({
-          name: `${student.firstName} ${student.surname}`,
+          name: student.name,
           iLeadChapter: student.chapter.toUpperCase().trim().replace(" ", ""),
           gender:
             student.gender[0] === "F"
@@ -116,8 +116,13 @@ const AddStudents = ({ onClose, schoolId }) => {
       name: studentName,
       gender: studentGender,
       iLeadChapter: studentLevel.toUpperCase().trim().replace(" ", ""),
-      schoolName: schoolId ? undefined : schoolName,
     };
+
+    if (schoolId) {
+      studentData.schoolId = schoolId;
+    } else {
+      studentData.schoolName = schoolName;
+    }
 
     setLoading(true);
     await addSingleStudent(studentData, onClose);
@@ -145,7 +150,7 @@ const AddStudents = ({ onClose, schoolId }) => {
         <div className="grid grid-cols-2">
           <button
             className={`px-4 py-2 rounded-3xl   text-sm font-semibold ${
-              activeTab === "many" && "bg-primary text-white" 
+              activeTab === "many" && "bg-primary text-white"
             }`}
             onClick={() => setActiveTab("many")}
           >
@@ -153,7 +158,7 @@ const AddStudents = ({ onClose, schoolId }) => {
           </button>
           <button
             className={`px-4 py-2 rounded-3xl  text-sm font-semibold  ${
-              activeTab === "one" && "bg-primary text-white" 
+              activeTab === "one" && "bg-primary text-white"
             }`}
             onClick={() => setActiveTab("one")}
           >

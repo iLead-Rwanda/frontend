@@ -59,7 +59,7 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
 
   return (
     <div className="flex flex-col items-center mt-4">
-      <div className={`grid grid-cols-${columns} gap-6`}>{paginatedItems}</div>
+      <div className={`grid grid-cols-${columns} gap-5 w-full`}>{paginatedItems}</div>
       <div className="flex mt-5">
         <button
           onClick={handlePrevPage}

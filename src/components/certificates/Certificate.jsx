@@ -7,6 +7,10 @@ import { DownloadIcon } from "../core/icons";
 import { downloadCertificateForStudent } from "../../utils/funcs/certificates";
 
 Pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${Pdfjs.version}/build/pdf.worker.min.mjs`;
+// Pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+//   "pdfjs-dist/build/pdf.worker.min.mjs",
+//   import.meta.url
+// ).toString();
 
 const Certificate = ({ name, date, type }) => {
   const [pdfImage, setPdfImage] = useState(null);
