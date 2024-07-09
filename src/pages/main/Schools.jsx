@@ -10,7 +10,6 @@ const Schools = () => {
   const [filteredSchools, setFilteredSchools] = useState([]);
   const { data: schools, loading, error } = useGet("/schools/my-province");
 
-  console.log(schools);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);

@@ -30,7 +30,6 @@ const ProvinceSchools = () => {
   );
 
   const { openModal, closeModal } = useModal();
-  console.log(provincesData);
   return (
     <div className="p-6">
       <div className="flex items-center justify-between">

@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const api = "http://localhost:5000";
-const api = "https://ilead-certification.onrender.com";
+const api = process.env.REACT_APP_BACKEND_API;
 
 function getAccessTokenFromLocalStorage() {
   return localStorage.getItem("accessToken");

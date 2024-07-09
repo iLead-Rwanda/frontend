@@ -36,7 +36,6 @@ const ExcelFileInput = ({ onFileSelect }) => {
   };
 
   const extractData = (data) => {
-    console.log(data)
     return data
       .filter((row) => row.length >= 3 && typeof row[0] === "number")
       .map(([number, name, chapter, gender]) => ({

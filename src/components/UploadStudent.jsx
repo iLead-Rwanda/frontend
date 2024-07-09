@@ -3,22 +3,19 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, useParams } from "react-router-dom";
 
 const UploadStudent = () => {
-  const {category}=useParams()
+  const { category } = useParams();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [progress, setProgress] = useState({});
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [files, setFiles] = useState([]);
 
-  const handleUploadClick = () => {
-    console.log(selectedFiles); 
-  };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     setSelectedFiles(files);
-    setFiles(files); 
+    setFiles(files);
     files.forEach((file) => {
       setProgress((prev) => ({
-       ...prev,
+        ...prev,
         [file.name]: 0,
       }));
       uploadFile(file);
@@ -38,7 +35,7 @@ const UploadStudent = () => {
         ...prev,
         [file.name]: 0,
       }));
-      uploadFile(file); 
+      uploadFile(file);
     });
   };
 
@@ -239,13 +236,14 @@ const UploadStudent = () => {
               </div>
             )}
           </div>
-         <Link to="/all">
-         <button
-        className="mt-6 bg-[#B58A5F] hover:bg-[#cea67f] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[445px]"
-        onClick={handleUploadClick}
-      >
-        UPLOAD FILES
-      </button></Link>
+          <Link to="/all">
+            <button
+              className="mt-6 bg-[#B58A5F] hover:bg-[#cea67f] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[445px]"
+              // onClick={handleUploadClick}
+            >
+              UPLOAD FILES
+            </button>
+          </Link>
         </div>
       </div>
     </div>
