@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
   const handlePageClick = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
 
-  // Handle next and previous buttons
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -23,22 +23,18 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
     }
   };
 
-  // Calculate the range of items to display on the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-  // Paginate children items
   const paginatedItems = React.Children.toArray(children).slice(
     startIndex,
     endIndex
   );
 
   useEffect(() => {
-    // Reset to the first page when totalItems changes
     setCurrentPage(1);
   }, [totalItems]);
 
-  // Generate page numbers
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxPagesToShow = 3;
@@ -57,9 +53,19 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
     return pageNumbers;
   };
 
+  const generateGridClasses = () => {
+    let gridClasses = "";
+    for (const [screen, cols] of Object.entries(columns)) {
+      gridClasses += ` ${screen}:grid-cols-${cols}`;
+    }
+    return gridClasses.trim();
+  };
+
   return (
     <div className="flex flex-col items-center mt-4">
-      <div className={`grid grid-cols-${columns} gap-5 w-full`}>{paginatedItems}</div>
+      <div className={`grid gap-5 w-full ${generateGridClasses()}`}>
+        {paginatedItems}
+      </div>
       <div className="flex mt-5">
         <button
           onClick={handlePrevPage}
@@ -99,7 +105,11 @@ const Pagination = ({ totalItems, itemsPerPage, columns, children }) => {
 Pagination.propTypes = {
   totalItems: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
-  columns: PropTypes.number,
+  columns: PropTypes.shape({
+    sm: PropTypes.number,
+    md: PropTypes.number,
+    lg: PropTypes.number,
+  }).isRequired,
   children: PropTypes.node.isRequired,
 };
 

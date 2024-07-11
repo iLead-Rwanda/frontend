@@ -43,16 +43,16 @@ const AuthLayout = () => {
 
   const { body, author, date } = quotes[currentQuoteIndex];
   return (
-    <div className="h-screen w-screen !overflow-hidden">
+    <div className="h-screen w-screen !overflow-hidden ">
       <div className="absolute">
         <img src={images.ilead} className="h-16" alt="" />
       </div>
-      <div className="absolute top-0 h-0">
-        <div className="grid grid-cols-2 items-center  h-screen ">
+      <div className="">
+        <div className="grid grid-cols-1  lg:grid-cols-2 items-center  h-screen  ">
           <div className="">
             <Outlet />
           </div>
-          <div className=" text-left px-20 rounded-lg ">
+          <div className="hidden lg:block  text-left px-20 rounded-lg ">
             <div className="mb-2 text-5xl italic relative">
               <div className="absolute bottom-[110%] ">
                 <img src={images.Quote} alt="" />
@@ -81,7 +81,11 @@ const AuthLayout = () => {
           </div>
         </div>
       </div>
-      <img src={images.authBg} className="object-cover w-screen" alt="" />
+      <img
+        src={images.authBg}
+        className="absolute top-0 -z-10  hidden lg:block object-cover w-screen"
+        alt=""
+      />
     </div>
   );
 };

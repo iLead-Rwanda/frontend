@@ -42,14 +42,14 @@ const SchoolStudentsCertificates = () => {
 
   return (
     <div className="">
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-2">
         <p className="text-xl font-bold text-primary">
           <Link to={`/schools`}>{school}</Link> /{" "}
           <span className="text-gray-700">
             {type === "students" ? "Students" : "Certificates"}
           </span>
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col-reverse md:flex-row  items-center gap-2">
           <input
             type="text"
             placeholder={`Search ${
@@ -133,7 +133,7 @@ const SchoolStudentsCertificates = () => {
           <Pagination
             itemsPerPage={12}
             totalItems={filteredData?.length}
-            columns={4}
+            columns={{ lg: 4, md: 2, sm: 1 }}
           >
             {filteredData?.map((item) =>
               type === "students" ? (

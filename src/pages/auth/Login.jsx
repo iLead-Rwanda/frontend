@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CustomInput from "../../components/core/CustomInput";
 import Button from "../../components/core/Button";
-import { unauthorizedApi } from "../../utils/api";
-import toast from "react-hot-toast";
 import { useUser } from "../../contexts/UserContext";
 
 const Login = () => {
@@ -57,9 +55,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen pl-20">
-      <div className="bg-white backdrop-blur-xl bg-opacity-10 p-8 rounded-lg border border-primary w-full">
-        <p className="text-3xl font-bold mb-2 text-primary">
+    <div className="flex items-center justify-center min-h-screen px-[3%]   lg:px-0 lg:pl-20 ">
+      <div className="bg-white backdrop-blur-3xl bg-opacity-10 p-[4%] rounded-lg border border-primary w-full">
+        <p className="text-xl lg:text-3xl font-bold mb-2 text-primary">
           Welcome to Ilead Certification System
         </p>
         <p className="text-sm mb-6 text-secondary">
@@ -122,12 +120,12 @@ const Login = () => {
           </Button>
         </form>
         <div className="mt-6 text-center">
-          <Link
+          {/* <Link
             to="/forgot-password"
             className="text-sm text-indigo-600 hover:text-indigo-500"
           >
             Forgot your password?
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

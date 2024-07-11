@@ -27,7 +27,7 @@ const Schools = () => {
 
   return (
     <div className="">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex flex-col md:flex-row  items-center justify-between mb-5">
         <h1 className="text-3xl font-bold text-primary">Schools</h1>
         <input
           type="text"
@@ -52,7 +52,7 @@ const Schools = () => {
             <Pagination
               itemsPerPage={12}
               totalItems={filteredSchools?.length}
-              columns={3}
+              columns={{ lg: 3, md: 2, sm: 1 }}
             >
               {filteredSchools?.map((school) => (
                 <div

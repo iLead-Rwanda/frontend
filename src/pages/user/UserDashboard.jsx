@@ -11,7 +11,7 @@ const UserDashboard = () => {
   const navigate = useNavigate();
   return (
     <div className="h-full ">
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {chapters.map((chapter, i) => {
           return (
             <div className="flex flex-col items-center space-y-3" key={i}>
@@ -28,7 +28,7 @@ const UserDashboard = () => {
       <p className="mt-20 mb-5 px-10 text-primary font-semibold">
         All Categories
       </p>
-      <div className="grid grid-cols-3 gap-10 mb-20 px-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-20 px-[3%]">
         {chapters.map((chapter, i) => {
           return (
             <div

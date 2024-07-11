@@ -46,11 +46,11 @@ const Students = () => {
 
   return (
     <div className="px-6">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col md:flex-row  items-center justify-between mb-4">
         <h1 className="text-2xl font-bold  text-center text-primary">
           Students
         </h1>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col-reverse md:flex-row  items-center gap-2">
           <input
             type="text"
             placeholder={`Search students`}
@@ -119,7 +119,7 @@ const Students = () => {
             <Pagination
               itemsPerPage={12}
               totalItems={filteredData?.length}
-              columns={4}
+              columns={{ lg: 4, md: 2, sm: 1 }}
             >
               {filteredData?.map((item) => (
                 <AStudent key={item.id} student={item} />
