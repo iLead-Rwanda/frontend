@@ -107,7 +107,7 @@ const SchoolStudentsCertificates = () => {
                 setLoading(true);
                 const certificates = filteredData.map((certificate) => ({
                   name: certificate.student.name,
-                  date: new Date(certificate.generatedAt).getDate().toString(),
+                  date: new Date().getDate().toString(),
                   iLeadChapter: certificate.student.iLeadChapter,
                 }));
                 await downloadCertificatesForSchool(certificates, school);

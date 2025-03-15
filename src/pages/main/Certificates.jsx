@@ -65,7 +65,7 @@ const Certificates = () => {
               setLoading(true);
               const certificates = filteredData.map((certificate) => ({
                 name: certificate.student.name,
-                date: new Date(certificate.generatedAt).getDay().toString(),
+                date: new Date().getDay().toString(),
                 iLeadChapter: certificate.student.iLeadChapter,
               }));
               await downloadManyCertificates(certificates);
@@ -112,7 +112,7 @@ const Certificates = () => {
                   key={item.id}
                   name={item.student.name}
                   type={item.student.iLeadChapter}
-                  date={new Date(item.generatedAt).getDay().toString()}
+                  date={new Date().getDay().toString()}
                 />
               ))}
             </Pagination>
