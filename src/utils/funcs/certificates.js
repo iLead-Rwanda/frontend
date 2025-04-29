@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import { authorizedApi } from "../api";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import JSZip from "jszip";
+import QRCode from "qrcode";
 
 const formUrls = {
   IDO: "/iDoCertificate.pdf",
@@ -44,9 +45,10 @@ export const generateStudentCertificates = async (studentId, callback) => {
 };
 
 export const downloadCertificateForStudent = async (
+  id,
   name,
-  date,
   level,
+  date,
   callback
 ) => {
   try {
@@ -67,10 +69,12 @@ export const downloadCertificateForStudent = async (
 
     let name1 = name;
     let name2 = "";
+
     if (name.length > 20) {
       let index = name.slice(0, 30).lastIndexOf(" ");
       name1 = name.slice(0, index);
       name2 = name.slice(index + 1);
+
       if (name1.length > 20) {
         const name1Index = name1.slice(0, 20).lastIndexOf(" ");
         name2 = name1.slice(name1Index + 1) + " " + name2;
@@ -81,13 +85,43 @@ export const downloadCertificateForStudent = async (
     const nameField1 = form.getTextField("name1");
     const nameField2 = form.getTextField("name2");
     const dateField = form.getTextField("date");
+
     nameField1.setText(name1);
     nameField2.setText(name2);
-    dateField.setText(date);
+    dateField.setText(`On ${new Date(date).toLocaleDateString()}`);
+
     const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
     nameField1.defaultUpdateAppearances(font);
     nameField2.defaultUpdateAppearances(font);
     dateField.defaultUpdateAppearances(font);
+    const qrUrl = `${window.location.origin}/certificates/${id}`;
+    const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
+    const qrImageBytes = await fetch(qrDataUrl).then((res) =>
+      res.arrayBuffer()
+    );
+    const qrImage = await pdfDoc.embedPng(qrImageBytes);
+
+    const page = pdfDoc.getPages()[0];
+    const { width, height } = page.getSize();
+    const qrWidth = 120;
+    const qrHeight = 120;
+
+    if (level === "IDO" || level === "ICHOOSE") {
+      page.drawImage(qrImage, {
+        x: 30,
+        y: 30,
+        width: qrWidth,
+        height: qrHeight,
+      });
+    } else if (level === "ILEAD") {
+      page.drawImage(qrImage, {
+        x: (width - qrWidth) / 2,
+        y: 30,
+        width: qrWidth,
+        height: qrHeight,
+      });
+    }
+
     form.flatten();
     const newPdfBytes = await pdfDoc.save();
     const blob = new Blob([newPdfBytes], { type: "application/pdf" });
@@ -106,7 +140,6 @@ export const downloadCertificateForStudent = async (
     console.error(error);
   }
 };
-
 export const downloadCertificatesForSchool = async (
   students,
   school,
@@ -121,21 +154,24 @@ export const downloadCertificatesForSchool = async (
     };
 
     for (const student of students) {
-      const { name, date, iLeadChapter } = student;
+      const { id, name, date, iLeadChapter } = student;
       const formUrls = {
         IDO: "/iDoCertificate.pdf",
         ICHOOSE: "/iChooseCertificate.pdf",
         ILEAD: "/iLeadCertificate.pdf",
       };
+
       const formUrl = formUrls[iLeadChapter];
       if (!formUrl) {
         throw new Error("Invalid level provided");
       }
+
       const formPdfBytes = await fetch(formUrl).then((res) =>
         res.arrayBuffer()
       );
       const pdfDoc = await PDFDocument.load(formPdfBytes);
       const form = pdfDoc.getForm();
+
       let name1 = name;
       let name2 = "";
       if (name.length > 20) {
@@ -152,14 +188,47 @@ export const downloadCertificatesForSchool = async (
       const nameField1 = form.getTextField("name1");
       const nameField2 = form.getTextField("name2");
       const dateField = form.getTextField("date");
+
       nameField1.setText(name1);
       nameField2.setText(name2);
       dateField.setText(date);
+
       const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
       nameField1.defaultUpdateAppearances(font);
       nameField2.defaultUpdateAppearances(font);
       dateField.defaultUpdateAppearances(font);
+
+      // QR Code
+      const qrUrl = `${window.location.origin}/certificates/${id}`;
+      const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
+      const qrImageBytes = await fetch(qrDataUrl).then((res) =>
+        res.arrayBuffer()
+      );
+      const qrImage = await pdfDoc.embedPng(qrImageBytes);
+
+      const page = pdfDoc.getPages()[0];
+      const { width, height } = page.getSize();
+      const qrWidth = 120;
+      const qrHeight = 120;
+
+      if (iLeadChapter === "IDO" || iLeadChapter === "ICHOOSE") {
+        page.drawImage(qrImage, {
+          x: 30,
+          y: 30,
+          width: qrWidth,
+          height: qrHeight,
+        });
+      } else if (iLeadChapter === "ILEAD") {
+        page.drawImage(qrImage, {
+          x: (width - qrWidth) / 2,
+          y: 150,
+          width: qrWidth,
+          height: qrHeight,
+        });
+      }
+
       form.flatten();
+
       const newPdfBytes = await pdfDoc.save();
       pdfBlobs[iLeadChapter].push({
         name: `${name}_${iLeadChapter}_Certificate.pdf`,
@@ -175,6 +244,7 @@ export const downloadCertificatesForSchool = async (
         });
       }
     }
+
     const content = await zip.generateAsync({ type: "blob" });
     const zipBlobUrl = URL.createObjectURL(content);
     const a = document.createElement("a");
@@ -184,6 +254,7 @@ export const downloadCertificatesForSchool = async (
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(zipBlobUrl);
+
     if (callback) callback();
   } catch (error) {
     toast.error("Failed to download certificates.");
@@ -201,7 +272,7 @@ export const downloadManyCertificates = async (students, callback) => {
     };
 
     for (const student of students) {
-      const { name, date, iLeadChapter } = student;
+      const { id, name, date, iLeadChapter } = student;
       const formUrls = {
         IDO: "/iDoCertificate.pdf",
         ICHOOSE: "/iChooseCertificate.pdf",
@@ -211,6 +282,7 @@ export const downloadManyCertificates = async (students, callback) => {
       if (!formUrl) {
         throw new Error("Invalid level provided");
       }
+
       const formPdfBytes = await fetch(formUrl).then((res) =>
         res.arrayBuffer()
       );
@@ -229,6 +301,7 @@ export const downloadManyCertificates = async (students, callback) => {
           name1 = name1.slice(0, name1Index);
         }
       }
+
       const nameField1 = form.getTextField("name1");
       const nameField2 = form.getTextField("name2");
       const dateField = form.getTextField("date");
@@ -239,7 +312,38 @@ export const downloadManyCertificates = async (students, callback) => {
       nameField1.defaultUpdateAppearances(font);
       nameField2.defaultUpdateAppearances(font);
       dateField.defaultUpdateAppearances(font);
+
+      // QR Code
+      const qrUrl = `${window.location.origin}/certificates/${id}`;
+      const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
+      const qrImageBytes = await fetch(qrDataUrl).then((res) =>
+        res.arrayBuffer()
+      );
+      const qrImage = await pdfDoc.embedPng(qrImageBytes);
+
+      const page = pdfDoc.getPages()[0];
+      const { width, height } = page.getSize();
+      const qrWidth = 120;
+      const qrHeight = 120;
+
+      if (iLeadChapter === "IDO" || iLeadChapter === "ICHOOSE") {
+        page.drawImage(qrImage, {
+          x: 30,
+          y: 30,
+          width: qrWidth,
+          height: qrHeight,
+        });
+      } else if (iLeadChapter === "ILEAD") {
+        page.drawImage(qrImage, {
+          x: (width - qrWidth) / 2,
+          y: 150,
+          width: qrWidth,
+          height: qrHeight,
+        });
+      }
+
       form.flatten();
+
       const newPdfBytes = await pdfDoc.save();
       pdfBlobs[iLeadChapter].push({
         name: `${name}_${iLeadChapter}_Certificate.pdf`,

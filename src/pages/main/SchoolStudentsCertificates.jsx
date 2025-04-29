@@ -23,7 +23,9 @@ const SchoolStudentsCertificates = () => {
     error,
     refetch,
   } = useGet(
-    `/${type === "students" ? "students" : "certificates"}/${schoolId}`
+    `/${type === "students" ? "students" : "certificates"}/${
+      type == "students" ? "" : "school/"
+    }${schoolId}`
   );
 
   const filteredData =
@@ -106,6 +108,7 @@ const SchoolStudentsCertificates = () => {
               onClick={async () => {
                 setLoading(true);
                 const certificates = filteredData.map((certificate) => ({
+                  id:certificate.id,
                   name: certificate.student.name,
                   date: new Date().getDate().toString(),
                   iLeadChapter: certificate.student.iLeadChapter,
@@ -147,9 +150,10 @@ const SchoolStudentsCertificates = () => {
               ) : (
                 <ICHOOSE
                   key={item.id}
+                  id={item.id}
                   name={item.student.name}
                   type={item.student.iLeadChapter}
-                  date={new Date(item.generatedAt).getDate().toString()}
+                  date={item.generatedAt}
                 />
               )
             )}

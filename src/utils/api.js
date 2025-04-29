@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = process.env.REACT_APP_BACKEND_API;
 
+
 function getAccessTokenFromLocalStorage() {
   return localStorage.getItem("accessToken");
 }
@@ -17,6 +18,7 @@ export const authorizedApi = axios.create({
 authorizedApi.interceptors.request.use(
   (config) => {
     const token = getAccessTokenFromLocalStorage();
+    console.log(api)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

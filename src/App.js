@@ -12,6 +12,7 @@ import ModalProvider from "./contexts/ModalContext";
 import Schools from "./pages/main/Schools";
 import SchoolStudentsCertificates from "./pages/main/SchoolStudentsCertificates";
 import Certificates from "./pages/main/Certificates";
+import ViewOneCertificate from "./pages/ViewOneCertificate";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/ana" element={<Analytics />} />
               <Route path="/fav" element={<Favorites />} /> */}
             </Route>
+            <Route path="/certificate/:id" element={<ViewOneCertificate />} />
             {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="/auth/login" element={<Login />} />

@@ -64,6 +64,7 @@ const Certificates = () => {
             onClick={async () => {
               setLoading(true);
               const certificates = filteredData.map((certificate) => ({
+                id:certificate.id,
                 name: certificate.student.name,
                 date: new Date().getDay().toString(),
                 iLeadChapter: certificate.student.iLeadChapter,
@@ -110,9 +111,10 @@ const Certificates = () => {
               {filteredData?.map((item) => (
                 <Certificate
                   key={item.id}
+                  id={item.id}
                   name={item.student.name}
                   type={item.student.iLeadChapter}
-                  date={new Date().getDay().toString()}
+                  date={item.generatedAt}
                 />
               ))}
             </Pagination>
