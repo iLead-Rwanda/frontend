@@ -64,7 +64,7 @@ const Certificate = ({ id, name, type, date }) => {
         nameField2.defaultUpdateAppearances(font);
         dateField.defaultUpdateAppearances(font);
 
-        const qrUrl = `${window.location.origin}/certificates/${id}`;
+        const qrUrl = `${window.location.origin}/certificate/${id}`;
         const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
 
         const page = pdfDoc.getPages()[0];

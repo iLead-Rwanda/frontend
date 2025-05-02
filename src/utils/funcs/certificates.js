@@ -94,7 +94,7 @@ export const downloadCertificateForStudent = async (
     nameField1.defaultUpdateAppearances(font);
     nameField2.defaultUpdateAppearances(font);
     dateField.defaultUpdateAppearances(font);
-    const qrUrl = `${window.location.origin}/certificates/${id}`;
+    const qrUrl = `${window.location.origin}/certificate/${id}`;
     const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
     const qrImageBytes = await fetch(qrDataUrl).then((res) =>
       res.arrayBuffer()
@@ -199,7 +199,7 @@ export const downloadCertificatesForSchool = async (
       dateField.defaultUpdateAppearances(font);
 
       // QR Code
-      const qrUrl = `${window.location.origin}/certificates/${id}`;
+      const qrUrl = `${window.location.origin}/certificate/${id}`;
       const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
       const qrImageBytes = await fetch(qrDataUrl).then((res) =>
         res.arrayBuffer()
@@ -314,7 +314,7 @@ export const downloadManyCertificates = async (students, callback) => {
       dateField.defaultUpdateAppearances(font);
 
       // QR Code
-      const qrUrl = `${window.location.origin}/certificates/${id}`;
+      const qrUrl = `${window.location.origin}/certificate/${id}`;
       const qrDataUrl = await QRCode.toDataURL(qrUrl, { margin: 1 });
       const qrImageBytes = await fetch(qrDataUrl).then((res) =>
         res.arrayBuffer()
