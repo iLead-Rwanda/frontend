@@ -69,12 +69,18 @@ const UserProvider = ({ children }) => {
     };
     initializeAuth();
   }, [navigate]);
-
+  
   useEffect(() => {
     if (!loading) {
-      if (!user && location.pathname !== "/auth/login") {
+      const path = location.pathname;
+
+      const isCertificateView = /^\/certificate\/[^/]+$/.test(path);
+      const isLoginPage = path === "/auth/login";
+      const isCertificatesRoot = path === "/certificates/";
+
+      if (!user && !isLoginPage && !isCertificatesRoot && !isCertificateView) {
         navigate("/auth/login");
-      } else if (user && location.pathname === "/auth/login") {
+      } else if (user && isLoginPage) {
         navigate("/");
       }
     }
