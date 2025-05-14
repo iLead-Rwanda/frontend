@@ -191,7 +191,7 @@ export const downloadCertificatesForSchool = async (
 
       nameField1.setText(name1);
       nameField2.setText(name2);
-      dateField.setText(date);
+      dateField.setText(`On ${new Date(date).toLocaleDateString()}`);
 
       const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
       nameField1.defaultUpdateAppearances(font);
@@ -307,7 +307,7 @@ export const downloadManyCertificates = async (students, callback) => {
       const dateField = form.getTextField("date");
       nameField1.setText(name1);
       nameField2.setText(name2);
-      dateField.setText(date);
+      dateField.setText(`On ${new Date(date).toLocaleDateString()}`);
       const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
       nameField1.defaultUpdateAppearances(font);
       nameField2.defaultUpdateAppearances(font);
