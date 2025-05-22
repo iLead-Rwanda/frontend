@@ -86,7 +86,7 @@ const Certificate = ({ id, name, type, date }) => {
           });
         } else if (type === "ILEAD") {
           page.drawImage(qrImage, {
-            x: (width - qrWidth) / 2,
+            x: ((width - qrWidth) / 2)-30,
             y: 150,
             width: qrWidth,
             height: qrHeight,

@@ -115,8 +115,8 @@ export const downloadCertificateForStudent = async (
       });
     } else if (level === "ILEAD") {
       page.drawImage(qrImage, {
-        x: (width - qrWidth) / 2,
-        y: 30,
+        x: ((width - qrWidth) / 2)-30,
+        y: 150,
         width: qrWidth,
         height: qrHeight,
       });
