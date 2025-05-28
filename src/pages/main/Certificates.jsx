@@ -66,7 +66,7 @@ const Certificates = () => {
               const certificates = filteredData.map((certificate) => ({
                 id:certificate.id,
                 name: certificate.student.name,
-                date: new Date().getDay().toString(),
+                date: certificate.generatedAt,
                 iLeadChapter: certificate.student.iLeadChapter,
               }));
               await downloadManyCertificates(certificates);
