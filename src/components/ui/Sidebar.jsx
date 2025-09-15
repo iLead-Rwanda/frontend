@@ -56,6 +56,24 @@ const Sidebar = () => {
       link: "/certificates",
       roles: ["Admin", "ProvincialAdmin"],
     },
+    {
+      icon: "mdi:hand-heart",
+      text: "Sponsors",
+      bgColor: "#11F8941A",
+      textColor: "#11F894",
+      containerBgColor: "#FFFFFF",
+      link: "/sponsors",
+      roles: ["Admin"],
+    },
+    {
+      icon: "ph:certificate-fill",
+      text: "Sponsor Certificates",
+      bgColor: "#F8A8111A",
+      textColor: "#F8A811",
+      containerBgColor: "#FFFFFF",
+      link: "/sponsor-certificates",
+      roles: ["Admin"],
+    },
   ];
 
   return (

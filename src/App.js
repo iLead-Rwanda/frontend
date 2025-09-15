@@ -13,6 +13,8 @@ import Schools from "./pages/main/Schools";
 import SchoolStudentsCertificates from "./pages/main/SchoolStudentsCertificates";
 import Certificates from "./pages/main/Certificates";
 import ViewOneCertificate from "./pages/ViewOneCertificate";
+import Sponsors from "./pages/admin/Sponsors";
+import SponsorCertificates from "./pages/admin/SponsorCertificates";
 
 function App() {
   return (
@@ -33,11 +35,14 @@ function App() {
               />
               {/* <Route path="/new" element={<NewStudent />} /> */}
               <Route path="/certificates" element={<Certificates />} />
+              <Route path="/sponsors" element={<Sponsors />} />
+              <Route path="/sponsor-certificates" element={<SponsorCertificates />} />
               {/* <Route path="/one" element={<OneCertifiate />} />
               <Route path="/ana" element={<Analytics />} />
               <Route path="/fav" element={<Favorites />} /> */}
             </Route>
             <Route path="/certificate/:id" element={<ViewOneCertificate />} />
+            <Route path="/sponsor-certificate/:id" element={<ViewOneCertificate />} />
             {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="/auth/login" element={<Login />} />
