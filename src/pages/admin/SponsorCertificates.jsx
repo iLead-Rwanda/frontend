@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import images from "../../utils/images";
 import useGet from "../../hooks/useGet";
 import { useModal } from "../../contexts/ModalContext";
 import Button from "../../components/core/Button";
 import Pagination from "../../components/core/Pagination";
-import SponsorCertificate from "../../components/certificates/SponsorCertificate";
+import SponsorCertificateCard from "../../components/certificates/SponsorCertificateCard";
+import { unauthorizedApi } from "../../utils/api";
+import toast from "react-hot-toast";
 import {
   downloadManySponsorCertificates,
   deleteSponsorCertificates,
@@ -16,7 +18,18 @@ const SponsorCertificates = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteAllLoading, setDeleteAllLoading] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
+  const [selectedProvince, setSelectedProvince] = useState("");
   const itemsPerPage = 12;
+
+  const provinces = [
+    { value: "", label: "All Provinces" },
+    { value: "CENTRAL", label: "Central" },
+    { value: "NORTH", label: "North" },
+    { value: "SOUTH", label: "South" },
+    { value: "WEST", label: "West" },
+    { value: "EAST", label: "East" }
+  ];
 
   // Debounce search term
   useEffect(() => {
@@ -37,6 +50,7 @@ const SponsorCertificates = () => {
       search: debouncedSearchTerm,
       page: currentPage,
       limit: itemsPerPage,
+      ...(selectedProvince && { province: selectedProvince })
     }
   }, currentPage, itemsPerPage);
 
@@ -50,19 +64,64 @@ const SponsorCertificates = () => {
     setCurrentPage(1); // Reset to first page when searching
   };
 
+  const handleProvinceChange = (e) => {
+    setSelectedProvince(e.target.value);
+    setCurrentPage(1); // Reset to first page when filtering
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
 
   const handleDownloadAll = async () => {
-    if (certificates && certificates.length > 0) {
-      const certificatesData = certificates.map(cert => ({
+    if (!pagination) return;
+    
+    setDownloadLoading(true);
+    try {
+      const allCertificates = [];
+      const totalPages = pagination.pages;
+      
+      // Show initial progress
+      toast.loading(`Preparing download... (0/${totalPages} pages)`, { id: 'download-progress' });
+      
+      // Fetch all certificates in chunks
+      for (let page = 1; page <= totalPages; page++) {
+        const response = await unauthorizedApi.get("/sponsors/certificates", {
+          params: {
+            search: debouncedSearchTerm,
+            page: page,
+            limit: itemsPerPage,
+            ...(selectedProvince && { province: selectedProvince })
+          }
+        });
+        
+        if (response.data?.data) {
+          allCertificates.push(...response.data.data);
+        }
+        
+        // Update progress
+        toast.loading(`Fetching certificates... (${page}/${totalPages} pages)`, { id: 'download-progress' });
+      }
+      
+      // Show processing message
+      toast.loading(`Processing ${allCertificates.length} certificates...`, { id: 'download-progress' });
+      
+      const certificatesData = allCertificates.map(cert => ({
         id: cert.id,
         name: cert.sponsor?.name,
         date: cert.generatedAt || cert.createdAt
       }));
+      
       await downloadManySponsorCertificates(certificatesData);
+      toast.dismiss('download-progress');
+      toast.success(`Successfully downloaded ${allCertificates.length} certificates!`);
+    } catch (error) {
+      console.error("Error downloading certificates:", error);
+      toast.dismiss('download-progress');
+      toast.error("Failed to download certificates");
+    } finally {
+      setDownloadLoading(false);
     }
   };
 
@@ -103,21 +162,36 @@ const SponsorCertificates = () => {
           Sponsor Certificates
         </h1>
         <div className="flex flex-col-reverse md:flex-row items-center gap-2">
-          <input
-            type="text"
-            placeholder="Search certificates..."
-            className="px-4 py-1.5 rounded-2xl text-sm border-primary border outline-none"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search certificates..."
+              className="px-4 py-1.5 rounded-2xl text-sm border-primary border outline-none"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <select
+              value={selectedProvince}
+              onChange={handleProvinceChange}
+              className="px-4 py-1.5 rounded-2xl text-sm border-primary border outline-none"
+            >
+              {provinces.map((province) => (
+                <option key={province.value} value={province.value}>
+                  {province.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex gap-2">
             {certificates && certificates.length > 0 && (
               <>
                 <Button
                   variant="secondary"
                   onClick={handleDownloadAll}
+                  loading={downloadLoading}
+                  disabled={downloadLoading}
                 >
-                  Download All
+                  {downloadLoading ? "Downloading..." : "Download All"}
                 </Button>
                 <Button
                   variant="danger"
@@ -157,20 +231,20 @@ const SponsorCertificates = () => {
               <p>No certificates found.</p>
             </div>
           ) : (
-            <Pagination
-              itemsPerPage={itemsPerPage}
-              totalItems={pagination?.total || 0}
-              columns={{ lg: 4, md: 2, sm: 1 }}
-            >
-              {certificates?.map((certificate) => (
-                <SponsorCertificate
-                  key={certificate.id}
-                  id={certificate.id}
-                  name={certificate.sponsor?.name || "Unknown Sponsor"}
-                  date={certificate.generatedAt || certificate.createdAt}
-                />
-              ))}
-            </Pagination>
+      <Pagination
+        itemsPerPage={itemsPerPage}
+        totalItems={pagination?.total || 0}
+        columns={{ lg: 4, md: 2, sm: 1 }}
+      >
+        {certificates?.map((certificate) => (
+          <SponsorCertificateCard
+            key={certificate.id}
+            id={certificate.id}
+            name={certificate.sponsor?.name || "Unknown Sponsor"}
+            date={certificate.generatedAt || certificate.createdAt}
+          />
+        ))}
+      </Pagination>
           )}
         </>
       )}

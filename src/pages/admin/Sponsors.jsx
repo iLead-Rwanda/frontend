@@ -14,8 +14,18 @@ const Sponsors = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteAllLoading, setDeleteAllLoading] = useState(false);
+  const [selectedProvince, setSelectedProvince] = useState("");
   const { openModal, closeModal } = useModal();
   const itemsPerPage = 12;
+
+  const provinces = [
+    { value: "", label: "All Provinces" },
+    { value: "CENTRAL", label: "Central" },
+    { value: "NORTH", label: "North" },
+    { value: "SOUTH", label: "South" },
+    { value: "WEST", label: "West" },
+    { value: "EAST", label: "East" }
+  ];
 
   // Debounce search term
   useEffect(() => {
@@ -36,6 +46,7 @@ const Sponsors = () => {
       search: debouncedSearchTerm,
       page: currentPage,
       limit: itemsPerPage,
+      ...(selectedProvince && { province: selectedProvince })
     }
   }, currentPage, itemsPerPage);
 
@@ -45,6 +56,11 @@ const Sponsors = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleProvinceChange = (e) => {
+    setSelectedProvince(e.target.value);
+    setCurrentPage(1); // Reset to first page when filtering
   };
 
   const handlePageChange = (page) => {
@@ -88,13 +104,26 @@ const Sponsors = () => {
           Sponsors
         </h1>
         <div className="flex flex-col-reverse md:flex-row items-center gap-2">
-          <input
-            type="text"
-            placeholder="Search sponsors..."
-            className="px-4 py-1.5 rounded-2xl text-sm border-primary border outline-none"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search sponsors..."
+              className="px-4 py-1.5 rounded-2xl text-sm border-primary border outline-none"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <select
+              value={selectedProvince}
+              onChange={handleProvinceChange}
+              className="px-4 py-1.5 rounded-2xl text-sm border-primary border outline-none"
+            >
+              {provinces.map((province) => (
+                <option key={province.value} value={province.value}>
+                  {province.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex gap-2">
             {sponsors && sponsors.length > 0 && (
               <Button
