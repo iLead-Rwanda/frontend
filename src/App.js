@@ -13,6 +13,7 @@ import Schools from "./pages/main/Schools";
 import SchoolStudentsCertificates from "./pages/main/SchoolStudentsCertificates";
 import Certificates from "./pages/main/Certificates";
 import ViewOneCertificate from "./pages/ViewOneCertificate";
+import AllCertificates from "./pages/AllCertificates";
 import Sponsors from "./pages/admin/Sponsors";
 import SponsorCertificates from "./pages/admin/SponsorCertificates";
 
@@ -43,6 +44,7 @@ function App() {
             </Route>
             <Route path="/certificate/:id" element={<ViewOneCertificate />} />
             <Route path="/sponsor-certificate/:id" element={<ViewOneCertificate />} />
+            <Route path="/all-certificates" element={<AllCertificates />} />
             {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/auth" element={<AuthLayout />}>
               <Route path="/auth/login" element={<Login />} />

@@ -171,10 +171,22 @@ export const downloadSponsorCertificate = async (
     nameField2.setText(name2);
     dateField.setText(`${new Date(date).getDate()}`);
 
-    const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
-    nameField1.defaultUpdateAppearances(font);
-    nameField2.defaultUpdateAppearances(font);
-    dateField.defaultUpdateAppearances(font);
+    // Check if text contains Unicode characters
+    const hasUnicode = /[^\x00-\x7F]/.test(name1 + name2);
+    
+    if (hasUnicode) {
+      // For Unicode characters, use a font that supports Unicode
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      nameField1.defaultUpdateAppearances(font);
+      nameField2.defaultUpdateAppearances(font);
+      dateField.defaultUpdateAppearances(font);
+    } else {
+      // For ASCII characters, use the preferred font
+      const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
+      nameField1.defaultUpdateAppearances(font);
+      nameField2.defaultUpdateAppearances(font);
+      dateField.defaultUpdateAppearances(font);
+    }
 
     // QR Code
     const qrUrl = `${window.location.origin}/sponsor-certificate/${id}`;
@@ -252,10 +264,22 @@ export const downloadManySponsorCertificates = async (sponsors, callback) => {
       nameField2.setText(name2);
       dateField.setText(`${new Date(date).getDate()}`);
 
-      const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
-      nameField1.defaultUpdateAppearances(font);
-      nameField2.defaultUpdateAppearances(font);
-      dateField.defaultUpdateAppearances(font);
+      // Check if text contains Unicode characters
+      const hasUnicode = /[^\x00-\x7F]/.test(name1 + name2);
+      
+      if (hasUnicode) {
+        // For Unicode characters, use a font that supports Unicode
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        nameField1.defaultUpdateAppearances(font);
+        nameField2.defaultUpdateAppearances(font);
+        dateField.defaultUpdateAppearances(font);
+      } else {
+        // For ASCII characters, use the preferred font
+        const font = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
+        nameField1.defaultUpdateAppearances(font);
+        nameField2.defaultUpdateAppearances(font);
+        dateField.defaultUpdateAppearances(font);
+      }
 
       // QR Code
       const qrUrl = `${window.location.origin}/sponsor-certificate/${id}`;
