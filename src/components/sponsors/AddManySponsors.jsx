@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as XLSX from 'xlsx';
-import ExcelFileInput from "../core/ExcelFileInput";
+import SponsorExcelFileInput from "../core/SponsorExcelFileInput";
 import Button from "../core/Button";
 import { addManySponsors, addSingleSponsor } from "../../utils/funcs/sponsors";
-import useGet from "../../hooks/useGet";
 
 const AddSponsors = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState("many");
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sponsorName, setSponsorName] = useState("");
-  const [selectedSchoolId, setSelectedSchoolId] = useState("");
-
-  // Get schools for dropdown
-  const { data: schools } = useGet("/schools");
 
   const [fileDataError, setFileDataError] = useState("");
   const [sponsorNameError, setSponsorNameError] = useState("");
-  const [schoolError, setSchoolError] = useState("");
 
   const handleFileSelect = (data) => {
     setFileData(data);
@@ -27,11 +21,6 @@ const AddSponsors = ({ onClose }) => {
   const handleSponsorNameChange = (e) => {
     setSponsorName(e.target.value);
     setSponsorNameError("");
-  };
-
-  const handleSchoolChange = (e) => {
-    setSelectedSchoolId(e.target.value);
-    setSchoolError("");
   };
 
   const handleSubmitMany = async () => {
@@ -50,7 +39,6 @@ const AddSponsors = ({ onClose }) => {
       Object.keys(fileData).map((sheet) => {
         return fileData[sheet].map((sponsor) => ({
           name: sponsor.name,
-          schoolId: sponsor.schoolId || sponsor.school_id || sponsor.SchoolId,
         }));
       })
     ).flat();
@@ -60,8 +48,10 @@ const AddSponsors = ({ onClose }) => {
     };
 
     setLoading(true);
-    await addManySponsors(result, onClose);
-    setLoading(false);
+    await addManySponsors(result, () => {
+      setLoading(false);
+      if (onClose) onClose();
+    });
   };
 
   const handleSubmitOne = async () => {
@@ -72,30 +62,26 @@ const AddSponsors = ({ onClose }) => {
       isValid = false;
     }
 
-    if (!selectedSchoolId) {
-      setSchoolError("Please select a school.");
-      isValid = false;
-    }
-
     if (!isValid) {
       return;
     }
 
     const sponsorData = {
       name: sponsorName,
-      schoolId: selectedSchoolId,
     };
 
     setLoading(true);
-    await addSingleSponsor(sponsorData, onClose);
-    setLoading(false);
+    await addSingleSponsor(sponsorData, () => {
+      setLoading(false);
+      if (onClose) onClose();
+    });
   };
 
   const handleDownloadTemplate = () => {
     const templateData = [
-      ["Number", "Name", "SchoolId"],
-      [1, "Sample Sponsor 1", "school-id-here"],
-      [2, "Sample Sponsor 2", "school-id-here"],
+      ["Number", "Name"],
+      [1, "Sample Sponsor 1"],
+      [2, "Sample Sponsor 2"],
     ];
 
     const worksheet = XLSX.utils.aoa_to_sheet(templateData);
@@ -159,7 +145,7 @@ const AddSponsors = ({ onClose }) => {
               Download Template
             </Button>
           </div>
-          <ExcelFileInput onFileSelect={handleFileSelect} />
+          <SponsorExcelFileInput onFileSelect={handleFileSelect} />
           {fileDataError && (
             <p className="text-red-500 text-sm mt-1">{fileDataError}</p>
           )}
@@ -195,30 +181,6 @@ const AddSponsors = ({ onClose }) => {
             />
             {sponsorNameError && (
               <p className="text-red-500 text-sm">{sponsorNameError}</p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="school"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              School:
-            </label>
-            <select
-              id="school"
-              value={selectedSchoolId}
-              onChange={handleSchoolChange}
-              className="w-full px-3 py-2 rounded-2xl border-primary border text-sm outline-none"
-            >
-              <option value="">Select School</option>
-              {schools?.map((school) => (
-                <option key={school.id} value={school.id}>
-                  {school.name}
-                </option>
-              ))}
-            </select>
-            {schoolError && (
-              <p className="text-red-500 text-sm">{schoolError}</p>
             )}
           </div>
           <div className="mt-4 flex justify-between space-x-2">

@@ -8,6 +8,7 @@ const ASponsor = ({ sponsor, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(sponsor.name);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -37,17 +38,20 @@ const ASponsor = ({ sponsor, onUpdate }) => {
           Are you sure you want to delete "{sponsor.name}"? This action cannot be undone.
         </p>
         <div className="flex justify-end space-x-2">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="secondary" onClick={closeModal} disabled={deleteLoading}>
             Cancel
           </Button>
           <Button
             variant="danger"
             onClick={async () => {
+              setDeleteLoading(true);
               await deleteSponsor(sponsor.id, () => {
                 closeModal();
                 if (onUpdate) onUpdate();
               });
+              setDeleteLoading(false);
             }}
+            loading={deleteLoading}
           >
             Delete
           </Button>
@@ -75,7 +79,6 @@ const ASponsor = ({ sponsor, onUpdate }) => {
       </div>
       
       <div className="text-sm text-gray-600 mb-3">
-        <p><strong>School:</strong> {sponsor.school?.name || "N/A"}</p>
         <p><strong>Created:</strong> {new Date(sponsor.createdAt).toLocaleDateString()}</p>
       </div>
 

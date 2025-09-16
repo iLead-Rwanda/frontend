@@ -17,6 +17,7 @@ export const addSingleSponsor = async (data, callback) => {
       toast.error("Failed to add sponsor.");
     }
     console.error("Error adding sponsor:", error);
+    if (callback) callback(); // Call callback even on error to close modal
   }
 };
 
@@ -33,6 +34,7 @@ export const addManySponsors = async (data, callback) => {
       toast.error("Failed to create sponsors.");
     }
     console.error("Error adding sponsors:", error);
+    if (callback) callback(); // Call callback even on error to close modal
   }
 };
 
@@ -184,10 +186,10 @@ export const downloadSponsorCertificate = async (
 
     const page = pdfDoc.getPages()[0];
     const { width, height } = page.getSize();
-    const qrWidth = 120;
-    const qrHeight = 120;
+    const qrWidth = 50;
+    const qrHeight = 50;
 
-    // Position QR code (adjust as needed for sponsor certificate layout)
+    // Position QR code for sponsor certificate
     page.drawImage(qrImage, {
       x: 30,
       y: 30,
