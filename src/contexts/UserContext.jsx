@@ -75,10 +75,12 @@ const UserProvider = ({ children }) => {
       const path = location.pathname;
 
       const isCertificateView = /^\/certificate\/[^/]+$/.test(path);
+      const isSponsorCertificateView = /^\/sponsor-certificate\/[^/]+$/.test(path);
+      const isAllCertificatesPage = path === "/all-certificates";
       const isLoginPage = path === "/auth/login";
       const isCertificatesRoot = path === "/certificates/";
 
-      if (!user && !isLoginPage && !isCertificatesRoot && !isCertificateView) {
+      if (!user && !isLoginPage && !isCertificatesRoot && !isCertificateView && !isSponsorCertificateView && !isAllCertificatesPage) {
         navigate("/auth/login");
       } else if (user && isLoginPage) {
         navigate("/");
