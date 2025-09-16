@@ -19,7 +19,7 @@ const AllCertificates = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 500);
+    }, 1000); // 5 seconds debounce
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
@@ -77,13 +77,38 @@ const AllCertificates = () => {
     fetchCertificates();
   }, [fetchCertificates]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#B58A5F] flex items-center justify-center">
-        <div className="text-white text-xl">Loading certificates...</div>
+  // Skeleton component for loading state
+  const SkeletonCard = () => (
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
+      {/* Certificate Preview Skeleton */}
+      <div className="p-4 bg-gradient-to-br from-gray-200 to-gray-300">
+        <div className="bg-white rounded-xl p-2">
+          <div className="h-48 bg-gray-200 rounded-xl"></div>
+        </div>
       </div>
-    );
-  }
+
+      {/* Card Content Skeleton */}
+      <div className="p-4">
+        <div className="flex items-center mb-3">
+          <div className="w-5 h-5 bg-gray-200 rounded mr-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        </div>
+
+        <div className="flex items-center mb-2">
+          <div className="w-4 h-4 bg-gray-200 rounded mr-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+        </div>
+
+        <div className="flex items-center mb-4">
+          <div className="w-4 h-4 bg-gray-200 rounded mr-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        </div>
+
+        {/* Download Button Skeleton */}
+        <div className="w-full h-12 bg-gray-200 rounded-xl"></div>
+      </div>
+    </div>
+  );
 
   if (error) {
     return (
@@ -123,14 +148,27 @@ const AllCertificates = () => {
         {/* Results Count */}
         <div className="text-center mb-6">
           <p className="text-white/80 text-lg">
-            {pagination?.total || 0} certificate{(pagination?.total || 0) !== 1 ? 's' : ''} found
-            {searchTerm && ` for "${searchTerm}"`}
-            {pagination && ` (Page ${currentPage} of ${pagination.pages})`}
+            {loading ? (
+              <span className="animate-pulse">Loading certificates...</span>
+            ) : (
+              <>
+                {pagination?.total || 0} certificate{(pagination?.total || 0) !== 1 ? 's' : ''} found
+                {searchTerm && ` for "${searchTerm}"`}
+                {pagination && ` (Page ${currentPage} of ${pagination.pages})`}
+              </>
+            )}
           </p>
         </div>
 
         {/* Certificates Grid */}
-        {certificates.length === 0 ? (
+        {loading ? (
+          // Show skeleton cards during loading
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }, (_, index) => (
+              <SkeletonCard key={index} />
+            ))}
+          </div>
+        ) : certificates.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-white/60 text-xl">
               {searchTerm ? "No certificates found matching your search." : "No certificates available."}
