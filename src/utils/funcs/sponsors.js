@@ -267,8 +267,8 @@ export const downloadManySponsorCertificates = async (sponsors, callback) => {
 
       const page = pdfDoc.getPages()[0];
       const { width, height } = page.getSize();
-      const qrWidth = 120;
-      const qrHeight = 120;
+      const qrWidth = 50;
+      const qrHeight = 50;
 
       page.drawImage(qrImage, {
         x: 30,
