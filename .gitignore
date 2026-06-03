@@ -23,3 +23,6 @@ yarn-error.log*
 
 
 config.bat
+
+# env files (added by remove-malware script)
+!.env.example
